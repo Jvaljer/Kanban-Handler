@@ -1,24 +1,53 @@
-/* core color palette */
 :root {
-  
-}
+    /* ------------------------
+        Main Color Palette
+    ------------------------ */
+    /* Core colors */
+    --main-light-beige: rgb(248, 244, 225);
+    --main-beige: rgb(218, 192, 163);
+    --main-light-brown: rgb(166, 123, 91);
+    --main-brown: rgb(218, 192, 163);
+    --main-dark-brown: rgb(43, 28, 12);
+    /* Shadow */
+    --main-shadow-color: rgba(0, 0, 0, 0.32);
+    /* Opacity variations */
 
-/* color-variables for general items */
-:root {
-  
-}
+    /* ---------------------------------------
+            Special Items Colors
+        (3 varations of 5 primary colors)
+        (+1 fancier set of 5 other ones)
+    --------------------------------------- */
+    /* Base Colors */
+    --item-base-red: rgb(239, 209, 189);
+    --item-base-yellow: rgb(239, 229, 189);
+    --item-base-green: rgb(226, 229, 189);
+    --item-base-blue: rgb(219, 221, 209);
+    --item-base-grey: rgb(219, 209, 189);
+    /* Bright Colors */
+    --item-bright-red: rgb(242, 173, 156);
+    --item-bright-yellow: rgb(242, 232, 156);
+    --item-bright-green: rgb(202, 234, 156);
+    --item-bright-blue: rgb(181, 210, 217);
+    --item-bright-grey: rgb(181, 173, 156);
+    /* Darker Colors */
+    --item-dark-red: rgb(168, 100, 90);
+    --item-dark-yellow: rgb(160, 153, 90);
+    --item-dark-green: rgb(125, 158, 90);
+    --item-dark-blue: rgb(105, 138, 152);
+    --item-dark-grey: rgb(105, 100, 90);
 
-/* used fonts (may be only one tho) */
-:root {
-  
-}
+    /* Fancy Colors */
+    --item-fancy-pink: rgb(242, 173, 209);
+    --item-fancy-purple: rgb(214, 173, 217);
+    --item-fancy-cyan: rgb(162, 233, 221);
+    --item-fancy-orange: rgb(242, 196, 156);
+    --item-fancy-white: rgb(252, 249, 245);
 
-/* used fonts (may be only one tho) */
-:root {
-  
-}
+    /* -----------------------------
+        Fonts (1 read 1 design)
+    ----------------------------- */
 
-/* text sizes (check how much that's needed...) */
-:root {
-  
+    /* ------------------
+        Texts Sizes
+    ------------------ */
 }
