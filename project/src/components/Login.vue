@@ -1,7 +1,19 @@
 <template>
     <div class="login-container">
         <div class="login-box">
-            <!-- TODO -->
+            <div class="login-box-content">
+                <div class="login-box-content-field">
+                    <span class="login-content-username">Username</span>
+                    <input type="text" placeholer=". . ."/>
+                    <a class="login-content-register-link">Not an user yet ?</a>
+                </div>
+                <div class="login-box-content-field">
+                    <span class="login-content-password">Password</span>
+                    <input type="text" placeholer=". . ."/>
+                    <a class="login-content-password-link">Forgot your password ?</a>
+                </div>
+            </div>
+            <button class="login-button"></button>
         </div>
     </div>
 </template>
