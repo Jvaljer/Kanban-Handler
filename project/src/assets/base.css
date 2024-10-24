@@ -46,8 +46,26 @@
     /* -----------------------------
         Fonts (1 read 1 design)
     ----------------------------- */
+    --family-urbanist: "Urbanist", sans-serif;
+
+    /* ------------------
+        Texts Weights
+    ------------------ */
+    --urbanist-semibold: 550;
 
     /* ------------------
         Texts Sizes
     ------------------ */
+}
+
+.urbanist {
+    font-family: var(--family-urbanist);
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* Defining some absolute design rules for specific attributes */
+a {
+    text-decoration: none;
+    font-style: italic;
 }
