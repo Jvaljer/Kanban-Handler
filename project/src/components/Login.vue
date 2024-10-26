@@ -2,7 +2,7 @@
     <!-- Toast display -->
     <div v-if="showToast"class="urbanist" :class="['toast', toastColor]">{{ toastMessage }}</div>
     <!-- Login Component -->
-    <div class="login-container">
+    <div class="login-container container">
         <div class="login-box">
             <div class="login-box-content">
                 <div class="login-box-content-field">
@@ -10,15 +10,20 @@
                     <input v-model="username"
                         class="login-field-input"
                         :class="{ 'field-input-error': loginFailed }"
-                        type="text" placeholer=". . ."/>
+                        type="text"/>
                     <a href="" class="login-content-link urbanist">Not an user yet ?</a>
                 </div>
                 <div class="login-box-content-field">
                     <span class="login-field-title urbanist">Password</span>
-                    <input v-model="password"
-                        class="login-field-input"
-                        :class="{ 'field-input-error': loginFailed }"
-                        type="text" placeholer=". . ."/>
+                    <div class="login-password-field-container">
+                        <input v-model="password"
+                            class="login-field-input"
+                            :class="{ 'field-input-error': loginFailed }"
+                            :type="showPassword ? 'text' : 'password'" />
+                        <button type="button" class="toggle-password-button" @click="togglePassword">
+                            <img class="toggle-password-icon" :src="showPassword ? eyeCloseIcon : eyeOpenIcon" alt="Toggle Password Visibility" />
+                        </button>
+                    </div>
                     <a href="" class="login-content-link urbanist">Forgot your password ?</a>
                 </div>
                 <button class="login-button urbanist" @click="tryLogin">Sign In</button>
@@ -34,7 +39,13 @@
 <script setup>
 import SignIn from './SignIn.vue';
 import ForgotPassword from './ForgotPassword.vue';
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
+
+import eyeOpenIcon from '@/assets/icons/eye-open.png';
+import eyeCloseIcon from '@/assets/icons/eye-close.png';
+
+// Emit function setup
+const emit = defineEmits(['userConnect']);
 
 // Instantiating reactive variables
 const username = ref('');
@@ -42,7 +53,9 @@ const password = ref('');
 const loginFailed = ref(false);
 const showToast = ref(false);
 const toastMessage = ref('');
-const toastColor = ref(''); // in order to differentiate fail & success toasts
+const toastColor = ref('');
+const showPassword = ref(false);
+
 
 function checkUserInfos(username, password)
 {
@@ -57,6 +70,8 @@ function tryLogin()
         toastMessage.value = "Informations Correct";
         toastColor.value = "green"; // success toast color
         loginFailed.value = false;
+
+        emit('userConnect');
     }
     else
     {
@@ -67,6 +82,11 @@ function tryLogin()
 
     showToast.value = true;
     setTimeout(() => showToast.value = false, 3000); // Hide toast after 3 seconds
+}
+
+function togglePassword()
+{
+    showPassword.value = !showPassword.value;
 }
 
 function showSignIn()
@@ -82,7 +102,6 @@ function showForgotPassword()
 <!-- LOCAL STYLES -->
 <style>
 .login-container {
-    height: 100vh;
     width: 100%;
 
     display: flex;
@@ -92,8 +111,8 @@ function showForgotPassword()
 }
 .login-box {
     background: url('@/assets/background-images/login-bg.png');
-    width: 416px;
-    height: 576px;
+    width: 416px; /* would be better relative */
+    height: 576px; /* would be better relative */
     box-shadow: 8px 8px 8px var(--main-shadow-color);
     border-radius: 104px 104px 32px 32px;
 
@@ -124,17 +143,18 @@ function showForgotPassword()
     font-size: 20px;
 }
 .login-field-input {
-    background-color: var(--main-light-beige);
+    background-color: var(--main-light-beige-32);
+    color: var(--main-dark-brown-32);
     border: none;
     border-radius: 16px;
     padding: 8px;
     font-size: 24px;
     text-align: top;
-    opacity: 0.32;
 }
 .field-input-error {
-    background-color: var(--item-bright-red);
-    border: solid 2px var(--item-dark-red);
+    color: var(--item-dark-red);
+    border-bottom: 2px solid var(--item-dark-red);
+    padding: 7px 8px;
 }
 .login-button {
     width: fit-content;
@@ -143,7 +163,7 @@ function showForgotPassword()
     padding: 8px 16px;
     border: none;
     border-radius: 16px;
-    font-weight: bold;
+    font-weight: var(--urbanist-semibold);
     background-color: var(--main-light-beige);
     color: var(--main-beige);
     opacity: 0.64;
@@ -154,6 +174,9 @@ function showForgotPassword()
     opacity: 1;
     padding: 8px 24px;
     border-radius: 32px;
+}
+.login-button:active {
+    background-color: var(--main-light-beige-64);
 }
 
 /* Toast styling */
@@ -174,5 +197,23 @@ function showForgotPassword()
     background-color: var(--item-bright-red);
     border: solid 2px var(--item-dark-red);
     color: var(--item-dark-red);
+}
+.login-password-field-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.toggle-password-button {
+    background: none;
+    border: none;
+    color: var(--main-light-beige);
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+}
+.toggle-password-icon {
+    width: 32px;
+    opacity: 0.64;
 }
 </style>

@@ -1,5 +1,7 @@
 <template>
-    <!-- TODO -->
+    <div class="project-container container">
+        <!-- TODO -->
+    </div>
 </template>
   
   

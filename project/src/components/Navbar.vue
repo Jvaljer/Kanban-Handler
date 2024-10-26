@@ -1,5 +1,5 @@
 <template>
-    <div class="navbar-container">
+    <div class="navbar-container container">
         <div class="navbar-container-header"></div>
         <div class="navbar-container-content"></div>
         <div class="navbar-container-footer"></div>
@@ -15,4 +15,8 @@ console.log("NAVBAR loaded ...");
   
 <!-- LOCAL STYLES -->
 <style>
+.navbar-container {
+    width: 20%; /* must set to less when collapsed */
+    background-color: var(--main-beige);
+}
 </style>
