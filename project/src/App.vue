@@ -17,11 +17,18 @@ import { ref } from 'vue';
 // Define a reactive variable to track connection status
 const isConnected = ref(false);
 const username = ref(''); // and the user's info
+const projects = ref([]);
 
 // Function triggered when userConnect event is emitted
 function onUserConnect(user) {
     isConnected.value = true;
     username.value = user;
+    projects = fetchProjectsInDatabase(user);
+}
+
+function fetchProjectsInDatabase(username)
+{
+  // TODO
 }
 
 console.log("APP loaded ...");
