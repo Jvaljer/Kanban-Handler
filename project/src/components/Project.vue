@@ -11,4 +11,7 @@
   
 <!-- LOCAL STYLES -->
 <style>
+.project-container {
+    background-color: aliceblue;
+}
 </style>

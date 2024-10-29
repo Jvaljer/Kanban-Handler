@@ -71,7 +71,7 @@ function tryLogin()
         toastColor.value = "green"; // success toast color
         loginFailed.value = false;
 
-        emit('userConnect');
+        emit('userConnect', username.value);
     }
     else
     {

@@ -23,6 +23,7 @@ const projectOpened = false;
 <!-- LOCAL STYLES -->
 <style>
 .content-container {
+    width: 80%; /* must set to more when navbar is collapsed */
     background-color: var(--main-light-beige);
 }
 </style>

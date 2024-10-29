@@ -1,10 +1,8 @@
 <template>
-  <div class="app-container">
+  <div class="app-container container">
     <Login @userConnect="onUserConnect" v-if="!isConnected"/>
-    <div class="window-container" v-if="isConnected"> <!-- This must only be displayed if the "Login" component is on state #connected# -->
-      <Navbar />
-      <Content />
-    </div>
+    <Navbar v-if="isConnected" :username="username"/>
+    <Content v-if="isConnected"/>
   </div>
 </template>
 
@@ -18,18 +16,24 @@ import { ref } from 'vue';
 
 // Define a reactive variable to track connection status
 const isConnected = ref(false);
+const username = ref(''); // and the user's info
 
 // Function triggered when userConnect event is emitted
-function onUserConnect() {
+function onUserConnect(user) {
     isConnected.value = true;
+    username.value = user;
 }
 
 console.log("APP loaded ...");
 </script>
+
 <!-- LOCAL STYLES -->
 <style>
 .app-container {
   background-color: var(--main-light-beige);
   margin: -8px; /* Strange that I need this, otherwise it */
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
 }
 </style>

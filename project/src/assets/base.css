@@ -14,8 +14,10 @@
     --main-light-beige-64: rgba(248, 244, 225, 0.64);
     --main-light-beige-32: rgba(248, 244, 225, 0.32);
     --main-beige-08: rgba(218, 192, 163), 0.08;
+    --main-dark-brown-80: rgba(43, 28, 12, 0.8);
     --main-dark-brown-64: rgba(43, 28, 12, 0.64);
     --main-dark-brown-32: rgba(43, 28, 12, 0.32);
+    --main-dark-brown-16: rgba(43, 28, 12, 0.16);
 
     /* ---------------------------------------
             Special Items Colors
