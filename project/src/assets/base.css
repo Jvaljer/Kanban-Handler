@@ -19,6 +19,10 @@
     --main-dark-brown-64: rgba(43, 28, 12, 0.64);
     --main-dark-brown-32: rgba(43, 28, 12, 0.32);
     --main-dark-brown-16: rgba(43, 28, 12, 0.16);
+    --main-dark-brown-08: rgba(43, 28, 12, 0.8);
+    /* Opacity variations BUT made opaque*/
+    --main-dark-brown-16-solid: #A6937D;
+    --main-dark-brown-08-solid: #CCB397;
 
     /* ---------------------------------------
             Special Items Colors

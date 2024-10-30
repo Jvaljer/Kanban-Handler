@@ -6,7 +6,7 @@
     -->
     <div class="content-container container">
         <Dashboard />
-        <Project v-if="projectOpened"/> <!-- Needs a precision on WHICH project is opened -->
+        <Project v-if="projectOpened" :project="openedProject"/> <!-- Needs a precision on WHICH project is opened -->
     </div>
 </template>
   
@@ -15,8 +15,10 @@
 <script setup>
 import Dashboard from './Dashboard.vue';
 import Project from './Project.vue';
+import { ref } from 'vue';
 
 const projectOpened = false;
+const openedProject = ref({});
 
 </script>
   
