@@ -1,8 +1,8 @@
 <template>
   <div class="app-container container">
     <Login @userConnect="onUserConnect" v-if="!isConnected"/>
-    <Navbar v-if="isConnected" :username="username" :projects="projects"/>
-    <Content v-if="isConnected"/>
+    <Navbar v-if="isConnected" :username="username" :projects="projects" @toggleNavbar="resizeContent"/>
+    <Content v-if="isConnected" :isExpanded="contentExpanded"/>
   </div>
 </template>
 
@@ -88,6 +88,7 @@ const debugProject = {
 const isConnected = ref(false);
 const username = ref(''); // and the user's info
 const projects = ref([]);
+const contentExpanded = ref(false);
 
 // Function triggered when userConnect event is emitted
 function onUserConnect(user) {
@@ -101,6 +102,12 @@ function fetchProjectsInDatabase(username)
   // TODO: link this to a DB that retrieve possible projects for user
   const projectList = [ debugProject ];
   return projectList;
+}
+
+function resizeContent()
+{
+  console.log("resizing content");
+  contentExpanded.value = !contentExpanded.value;
 }
 
 console.log("APP loaded ...");

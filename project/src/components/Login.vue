@@ -144,7 +144,7 @@ function showForgotPassword()
 }
 .login-field-input {
     background-color: var(--main-light-beige-32);
-    color: var(--main-dark-brown-32);
+    color: var(--main-dark-brown-64);
     border: none;
     border-radius: 16px;
     padding: 8px;

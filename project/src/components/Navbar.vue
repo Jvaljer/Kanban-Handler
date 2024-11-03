@@ -1,6 +1,6 @@
 <template>
     <button class="resize-navbar-button" 
-        @click="switchNavbarSize"
+        @click="toggleNavbar"
         :class="{ 'resize-collapse': isCollapsed}"
     >
         <img :class="{'resize-icon-collapse': isCollapsed}"
@@ -12,13 +12,11 @@
     >
         <div class="navbar-container-header">
             <img class="navbar-header-user-icon" src="@/assets/icons/user-icon.png"/>
-            <transition name="fade">
-                <span class="navbar-header-user-name"
-                    v-show="!isCollapsed"
-                >
-                    {{ username }}
-                </span>
-            </transition>
+            <span class="navbar-header-user-name"
+                v-show="!isCollapsed"
+            >
+                {{ username }}
+            </span>
         </div>
         <div class="navbar-container-content">
             <!-- Here show the user's projects fetched from database -->
@@ -53,9 +51,12 @@ const props = defineProps({
     }
 });
 
-function switchNavbarSize()
+const emits = defineEmits(['toggleNavbar']);
+
+function toggleNavbar()
 {
     isCollapsed.value = !isCollapsed.value;
+    emits('toggleNavbar');
 }
 
 console.log("NAVBAR loaded ...");
@@ -75,7 +76,7 @@ console.log("NAVBAR loaded ...");
     font-size: 24px;
     letter-spacing: -4px;
     left: 304px;
-    transition: left 0.5s ease-in;
+    transition: left 0.25s ease-in;
 }
 .resize-navbar-button:hover, .resize-icon-collapse {
     transform: scale(0.8);
@@ -84,7 +85,7 @@ console.log("NAVBAR loaded ...");
     rotate: 180deg;
     padding-top: 4px;
     padding-bottom: 0px;
-    left: 98px;
+    left: 132px;
 }
 .resize-navbar-button:hover {
     color: var(--main-dark-brown-64);
@@ -95,10 +96,10 @@ console.log("NAVBAR loaded ...");
     display: flex;
     flex-direction: column;
 
-    transition: width 0.5s ease-in;
+    transition: width 0.25s ease-in;
 }
 .navbar-collapsed {
-    width: 96px;
+    width: 132px;
 }
 
 /* HEADER STYLES */
@@ -135,41 +136,21 @@ console.log("NAVBAR loaded ...");
     align-items: center;
 }
 .navbar-project-item {
+    width: 80%;
     padding: 16px;
-    font-size: 16px;
+    font-size: 20px;
     color: var(--main-dark-brown-80);
-    background-color: var(--main-dark-brown-16-solid);
+    border: solid 2px var(--main-dark-brown-80);
     border-radius: 8px;
-    border: solid 1px var(--main-dark-brown-16-solid);
 
-    transition: background-color 0.25s ease, 
-                border-color 0.25s ease, 
-                border-radius 0.25s ease;
+    transition: border-radius 0.25s ease, padding 0.25s ease, font-size 0.25s ease;
 }
 .navbar-project-item:hover {
-    background-color: var(--main-dark-brown-08-solid);
-    border: solid 1px var(--main-dark-brown-80);
+    background-color: var(--main-dark-brown-16);
     border-radius: 16px;
 }
 .item-collapsed {
-    padding: 8px;
-}
-
-/* FOOTER STYLES */
-.navbar-container-footer {
-    border-top: solid 2px var(--main-dark-brown-16);
-    width: 100%;
-    height: 10%;
-}
-
-/* TRANSITIONS RELATED STYLES */
-.fade-enter-active, .fade-leave-active {
-    transition: opacity 0.5s ease;
-}
-.fade-enter, .fade-leave-to {
-    opacity: 0;
-}
-.fade-enter-to, .fade-leave {
-    opacity: 1;
+    font-size: 20px;
+    padding: 16px 12px;
 }
 </style>
