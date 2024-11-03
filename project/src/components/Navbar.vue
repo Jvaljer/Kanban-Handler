@@ -11,7 +11,7 @@
         :class="{ 'navbar-collapsed': isCollapsed}"
     >
         <div class="navbar-container-header">
-            <img class="navbar-header-user-icon" src="@/assets/icons/user-icon.png"/>
+            <img class="navbar-header-user-icon" src="@/assets/icons/user-icon.png" @click="backHome"/>
             <span class="navbar-header-user-name"
                 v-show="!isCollapsed"
             >
@@ -25,11 +25,29 @@
                 :key="index" 
                 class="navbar-project-item"
                 :class="{ 'item-collapsed': isCollapsed}"
+                @click="openProject(project.name)"
             >
                 {{ project.name }}
             </div>
         </div>
-        <div class="navbar-container-footer"></div>
+        <div
+            class="navbar-container-footer"
+            :class="{ 'navbar-footer-colllapsed': isCollapsed }"
+        >
+            <span class="navbar-footer-credits"
+                v-show="!isCollapsed"
+            >
+                Kanban Handler, v0.0<br>by Jvaljer
+            </span>
+            <div class="navbar-footer-buttons">
+                <div class="navbar-help-button navbar-action-button">
+                    <img class="navbar-action-button-image" src="@/assets/icons/help-icon.png"/>
+                </div>
+                <div class="navbar-legalmention-button navbar-action-button">
+                    <img class="navbar-action-button-image" src="@/assets/icons/doc-icon.png"/>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
   
@@ -51,7 +69,7 @@ const props = defineProps({
     }
 });
 
-const emits = defineEmits(['toggleNavbar']);
+const emits = defineEmits(['toggleNavbar', 'openProject']);
 
 function toggleNavbar()
 {
@@ -59,7 +77,15 @@ function toggleNavbar()
     emits('toggleNavbar');
 }
 
-console.log("NAVBAR loaded ...");
+function openProject(projectName)
+{
+    emits('openProject', projectName);
+}
+
+function backHome()
+{
+    //must implement
+}
 </script>
   
 <!-- LOCAL STYLES -->
@@ -75,7 +101,7 @@ console.log("NAVBAR loaded ...");
     color: var(--main-beige);
     font-size: 24px;
     letter-spacing: -4px;
-    left: 304px;
+    left: 280px;
     transition: left 0.25s ease-in;
 }
 .resize-navbar-button:hover, .resize-icon-collapse {
@@ -85,7 +111,7 @@ console.log("NAVBAR loaded ...");
     rotate: 180deg;
     padding-top: 4px;
     padding-bottom: 0px;
-    left: 132px;
+    left: 152px;
 }
 .resize-navbar-button:hover {
     color: var(--main-dark-brown-64);
@@ -99,7 +125,7 @@ console.log("NAVBAR loaded ...");
     transition: width 0.25s ease-in;
 }
 .navbar-collapsed {
-    width: 132px;
+    width: 152px;
 }
 
 /* HEADER STYLES */
@@ -120,6 +146,9 @@ console.log("NAVBAR loaded ...");
 .navbar-header-user-icon {
     width: 64px;
 }
+.navbar-header-user-icon:hover {
+    transform: scale(1.1);
+}
 .navbar-header-user-name {
     font-size: 32px;
     color: var(--main-dark-brown-80);
@@ -139,8 +168,8 @@ console.log("NAVBAR loaded ...");
     width: 80%;
     padding: 16px;
     font-size: 20px;
-    color: var(--main-dark-brown-80);
-    border: solid 2px var(--main-dark-brown-80);
+    color: var(--main-dark-brown-64);
+    border: solid 2px var(--main-dark-brown-64);
     border-radius: 8px;
 
     transition: border-radius 0.25s ease, padding 0.25s ease, font-size 0.25s ease;
@@ -152,5 +181,27 @@ console.log("NAVBAR loaded ...");
 .item-collapsed {
     font-size: 20px;
     padding: 16px 12px;
+}
+
+/* FOOTER STYLES */
+.navbar-container-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    color: var(--main-dark-brown-32);
+    border-top: solid 2px var(--main-beige);
+}
+.navbar-footer-colllapsed {
+    justify-content: center;
+}
+.navbar-footer-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+.navbar-action-button:hover {
+    transform: scale(1.1);
 }
 </style>

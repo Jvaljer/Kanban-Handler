@@ -7,7 +7,7 @@
     <div class="content-container"
         :class="{ 'content-container-expanded': isExpanded }"
     >
-        <Dashboard />
+        <Dashboard v-if="!projectOpened"/>
         <Project v-if="projectOpened" :project="openedProject"/> <!-- Needs a precision on WHICH project is opened -->
     </div>
 </template>
@@ -22,23 +22,26 @@ import { ref } from 'vue';
 const props = defineProps({
     isExpanded: {
         type: Boolean
+    },
+    projectOpened: {
+        type: Boolean
+    },
+    openedProject: {
+        type: Object
     }
 });
-
-const projectOpened = false;
-const openedProject = ref({});
 
 </script>
   
 <!-- LOCAL STYLES -->
 <style>
 .content-container {
-    width: calc(100vw - 304px); /* must set to more when navbar is collapsed */
+    width: calc(100vw - 304px);
     background-color: var(--main-light-beige);
 
     transition: width 0.25s ease;
 }
 .content-container-expanded {
-    width: calc(100vw - 132px);
+    width: calc(100vw - 152px);
 }
 </style>

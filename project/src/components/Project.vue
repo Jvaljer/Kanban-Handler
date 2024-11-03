@@ -1,6 +1,9 @@
 <template>
     <div class="project-container container">
-        <!-- TODO -->
+        <div class="project">
+            <!-- TODO  -->
+             {{ project.name }}
+        </div>
     </div>
 </template>
   
@@ -20,6 +23,17 @@ const props = defineProps({
 <!-- LOCAL STYLES -->
 <style>
 .project-container {
-    background-color: aliceblue;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.project {
+    padding: 16px;
+    width: calc(90% - 32px);
+    height: calc(90% - 32px);
+    border: solid 2px var(--main-beige-16);
+    border-radius: 8px;
+    background-color: var(--main-beige-08);
 }
 </style>

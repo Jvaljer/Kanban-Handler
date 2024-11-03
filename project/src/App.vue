@@ -1,8 +1,8 @@
 <template>
   <div class="app-container container">
     <Login @userConnect="onUserConnect" v-if="!isConnected"/>
-    <Navbar v-if="isConnected" :username="username" :projects="projects" @toggleNavbar="resizeContent"/>
-    <Content v-if="isConnected" :isExpanded="contentExpanded"/>
+    <Navbar v-if="isConnected" :username="username" :projects="projects" @toggleNavbar="resizeContent" @openProject="openProject"/>
+    <Content v-if="isConnected" :isExpanded="contentExpanded" :projectOpened="projectIsOpened" :openedProject="openedProject"/>
   </div>
 </template>
 
@@ -89,6 +89,8 @@ const isConnected = ref(false);
 const username = ref(''); // and the user's info
 const projects = ref([]);
 const contentExpanded = ref(false);
+const projectIsOpened = ref(false);
+const openedProject = ref();
 
 // Function triggered when userConnect event is emitted
 function onUserConnect(user) {
@@ -104,13 +106,32 @@ function fetchProjectsInDatabase(username)
   return projectList;
 }
 
+function searchProjectByName(name)
+{
+    for (let project of projects.value)
+    { 
+        if (project.name === name)
+        {
+            console.log("Found it!");
+            return project;
+        }
+    }
+    console.log("No project found ...");
+    return null;
+}
+
 function resizeContent()
 {
-  console.log("resizing content");
   contentExpanded.value = !contentExpanded.value;
 }
 
-console.log("APP loaded ...");
+function openProject(projectName)
+{
+  console.log("Opening the project: "+projectName);
+  projectIsOpened.value = true;
+  openedProject.value = searchProjectByName(projectName);
+  console.log("opened Project is: "+openedProject.value.name);
+}
 </script>
 
 <!-- LOCAL STYLES -->
