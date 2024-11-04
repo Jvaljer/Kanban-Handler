@@ -29,22 +29,22 @@ const debugProject = {
     {
       "name": "pending",
       "isDefault": true,
-      "color": "var(--item-bright-red)"
+      "color": "var(--item-base-red)"
     },
     {
       "name": "in-progress",
       "isDefault": false,
-      "color": "var(--item-bright-yellow)"
+      "color": "var(--item-base-yellow)"
     },
     {
       "name": "advanced",
       "isDefault": false,
-      "color": "var(--item-bright-green)"
+      "color": "var(--item-base-green)"
     },
     {
       "name": "done",
       "isDefault": false,
-      "color": "var(--item-bright-blue)"
+      "color": "var(--item-base-blue)"
     }
   ],
   "categories": [
@@ -60,8 +60,13 @@ const debugProject = {
     },
     {
       "name": "Marketing",
-      "color": "var(--item-light-blue)",
+      "color": "var(--item-light-yellow)",
       "description": "Whatever is concerning the selling and funding of the solution."
+    },
+    {
+      "name": "Other",
+      "color": "var(--item-light-blue)",
+      "description": "All tasks that cannot be put in any other category."
     }
   ],
   "tasks": [
@@ -99,6 +104,13 @@ const debugProject = {
       "category": "Design",
       "description": "Find better small-interactions (hover, focus, active, ...)",
       "priority": "Medium"
+    },
+    {
+      "name": "Try Crow-Funding",
+      "state": "pending",
+      "category": "Other",
+      "description": "Must put the project on kickstarter.",
+      "priority": "Low"
     }
   ],
   "kanbanView": "category",

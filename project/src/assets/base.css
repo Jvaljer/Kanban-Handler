@@ -12,16 +12,22 @@
     --main-shadow-color: rgba(0, 0, 0, 0.32);
     /* Opacity variations */
     --main-light-beige-64: rgba(248, 244, 225, 0.64);
+    --main-light-beige-48: rgba(248, 244, 225, 0.48);
     --main-light-beige-32: rgba(248, 244, 225, 0.32);
     --main-beige-08: rgba(218, 192, 163, 0.08);
     --main-beige-16: rgba(218, 192, 163, 0.16);
+    --main-beige-32: rgba(218, 192, 163, 0.32);
+    --main-beige-64: rgba(218, 192, 163, 0.64);
     --main-brown-64: rgba(96, 63, 38, 0.64);
     --main-brown-32: rgba(96, 63, 38, 0.32);
+    --main-brown-08: rgba(96, 63, 38, 0.08);
     --main-dark-brown-80: rgba(43, 28, 12, 0.8);
     --main-dark-brown-64: rgba(43, 28, 12, 0.64);
+    --main-dark-brown-48: rgba(43, 28, 12, 0.48);
     --main-dark-brown-32: rgba(43, 28, 12, 0.32);
     --main-dark-brown-16: rgba(43, 28, 12, 0.16);
     --main-dark-brown-08: rgba(43, 28, 12, 0.08);
+    --main-dark-brown-04: rgba(43, 28, 12, 0.04);
     /* Opacity variations BUT made opaque*/
     --main-dark-brown-16-solid: #A6937D;
     --main-dark-brown-08-solid: #CCB397;
