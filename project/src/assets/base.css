@@ -6,7 +6,7 @@
     --main-light-beige: rgb(248, 244, 225);
     --main-beige: rgb(218, 192, 163);
     --main-light-brown: rgb(166, 123, 91);
-    --main-brown: rgb(218, 192, 163);
+    --main-brown: rgb(96, 63, 38);
     --main-dark-brown: rgb(43, 28, 12);
     /* Shadow */
     --main-shadow-color: rgba(0, 0, 0, 0.32);
@@ -15,6 +15,7 @@
     --main-light-beige-32: rgba(248, 244, 225, 0.32);
     --main-beige-08: rgba(218, 192, 163, 0.08);
     --main-beige-16: rgba(218, 192, 163, 0.16);
+    --main-brown-64: rgba(96, 63, 38, 0.64);
     --main-dark-brown-80: rgba(43, 28, 12, 0.8);
     --main-dark-brown-64: rgba(43, 28, 12, 0.64);
     --main-dark-brown-32: rgba(43, 28, 12, 0.32);

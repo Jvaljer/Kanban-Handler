@@ -1,7 +1,13 @@
 <template>
   <div class="app-container container">
     <Login @userConnect="onUserConnect" v-if="!isConnected"/>
-    <Navbar v-if="isConnected" :username="username" :projects="projects" @toggleNavbar="resizeContent" @openProject="openProject"/>
+    <Navbar v-if="isConnected" 
+      :username="username"
+      :projects="projects"
+      @toggleNavbar="resizeContent"
+      @openProject="openProject"
+      @backHome="closeProject"
+    />
     <Content v-if="isConnected" :isExpanded="contentExpanded" :projectOpened="projectIsOpened" :openedProject="openedProject"/>
   </div>
 </template>
@@ -79,7 +85,10 @@ const debugProject = {
       "priority": "Medium"
     }
   ],
-  "kanbanView": "state"
+  "kanbanView": "category",
+  "creationDate": "11/04/2024",
+  "deadline": "none",
+  "creator": "ahenry"
 };
 
 // TODO: make another one that has "kanbanView = "category" to test both layouts
@@ -127,10 +136,14 @@ function resizeContent()
 
 function openProject(projectName)
 {
-  console.log("Opening the project: "+projectName);
   projectIsOpened.value = true;
   openedProject.value = searchProjectByName(projectName);
-  console.log("opened Project is: "+openedProject.value.name);
+}
+
+function closeProject()
+{
+  projectIsOpened.value = false;
+  openedProject.value = null; //is there something better to do that defining null ? maybe an empty project ??
 }
 </script>
 

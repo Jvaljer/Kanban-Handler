@@ -21,14 +21,20 @@
         <div class="navbar-container-content">
             <!-- Here show the user's projects fetched from database -->
             <div 
-                v-for="(project, index) in projects" 
-                :key="index" 
-                class="navbar-project-item"
+                v-for="project in projects"
+                :key="project.name"
+                class="navbar-project-item navbar-content-item"
                 :class="{ 'item-collapsed': isCollapsed}"
                 @click="openProject(project.name)"
             >
                 {{ project.name }}
             </div>
+            <button
+                class="navbar-create-item-button navbar-content-item"
+                :class="{ 'item-collapsed': isCollapsed}"
+            >
+                Create New Project
+            </button>
         </div>
         <div
             class="navbar-container-footer"
@@ -41,10 +47,10 @@
             </span>
             <div class="navbar-footer-buttons">
                 <div class="navbar-help-button navbar-action-button">
-                    <img class="navbar-action-button-image" src="@/assets/icons/help-icon.png"/>
+                    <img alt="Help" title="Help & Tips" class="navbar-action-button-image" src="@/assets/icons/help-icon.png"/>
                 </div>
                 <div class="navbar-legalmention-button navbar-action-button">
-                    <img class="navbar-action-button-image" src="@/assets/icons/doc-icon.png"/>
+                    <img alt="Documentation" title="Documentation" class="navbar-action-button-image" src="@/assets/icons/doc-icon.png"/>
                 </div>
             </div>
         </div>
@@ -69,7 +75,7 @@ const props = defineProps({
     }
 });
 
-const emits = defineEmits(['toggleNavbar', 'openProject']);
+const emits = defineEmits(['toggleNavbar', 'openProject', 'backHome']);
 
 function toggleNavbar()
 {
@@ -84,7 +90,7 @@ function openProject(projectName)
 
 function backHome()
 {
-    //must implement
+    emits('backHome');
 }
 </script>
   
@@ -101,7 +107,7 @@ function backHome()
     color: var(--main-beige);
     font-size: 24px;
     letter-spacing: -4px;
-    left: 280px;
+    left: 304px;
     transition: left 0.25s ease-in;
 }
 .resize-navbar-button:hover, .resize-icon-collapse {
@@ -171,18 +177,35 @@ function backHome()
     color: var(--main-dark-brown-64);
     border: solid 2px var(--main-dark-brown-64);
     border-radius: 8px;
+    text-align: left;
 
     transition: border-radius 0.25s ease, padding 0.25s ease, font-size 0.25s ease;
 }
-.navbar-project-item:hover {
+.navbar-project-item:hover, .navbar-create-item-button:hover {
     background-color: var(--main-dark-brown-16);
-    border-radius: 16px;
+    border-radius: 12px;
 }
 .item-collapsed {
     font-size: 20px;
     padding: 16px 12px;
 }
 
+.navbar-create-item-button {
+    width: 92%;
+    padding: 16px;
+    font-size: 20px;
+    text-align: left;
+    background-color: transparent;
+    color: var(--main-dark-brown-32);
+    border: solid 2px var(--main-dark-brown-32);
+    border-radius: 8px;
+
+    transition: border-radius 0.25s ease, padding 0.25s ease, font-size 0.25s ease;
+}
+.navbar-content-item {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
 /* FOOTER STYLES */
 .navbar-container-footer {
     display: flex;
