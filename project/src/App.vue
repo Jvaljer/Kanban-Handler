@@ -26,25 +26,41 @@ const debugProject = {
   "description": "Void project allowing me to test my front & semi-back (local JSON before DB)",
   "participants": ["ahenry", "abelo"],
   "states": [
-    { "name": "pending", "isDefault": true, "color": "var(--item-bright-red)" },
-    { "name": "in-progress", "isDefault": false, "color": "var(--item-bright-yellow)" },
-    { "name": "advanced", "isDefault": false, "color": "var(--item-bright-green)" },
-    { "name": "done", "isDefault": false, "color": "var(--item-bright-blue)" }
+    {
+      "name": "pending",
+      "isDefault": true,
+      "color": "var(--item-bright-red)"
+    },
+    {
+      "name": "in-progress",
+      "isDefault": false,
+      "color": "var(--item-bright-yellow)"
+    },
+    {
+      "name": "advanced",
+      "isDefault": false,
+      "color": "var(--item-bright-green)"
+    },
+    {
+      "name": "done",
+      "isDefault": false,
+      "color": "var(--item-bright-blue)"
+    }
   ],
   "categories": [
     {
       "name": "Development",
-      "color": "var(--item-base-red)",
+      "color": "var(--item-light-red)",
       "description": "Dev-Oriented tasks, all tech concerned."
     },
     {
       "name": "Design",
-      "color": "var(--item-base-green)",
+      "color": "var(--item-light-green)",
       "description": "Design-related tasks, wether it is UX, UI or Product ..."
     },
     {
       "name": "Marketing",
-      "color": "var(--item-base-blue)",
+      "color": "var(--item-light-blue)",
       "description": "Whatever is concerning the selling and funding of the solution."
     }
   ],

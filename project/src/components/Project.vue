@@ -31,7 +31,29 @@
                 </div>
             </div>
             <div class="project-body">
-                <!-- TODO -->
+                <!-- PUT THIS IN ANOTHER COMPONENT "CATEGORIE.VUE" -->
+                <div v-for="category in project.categories"
+                    :key="category.name"
+                    class="project-item"
+                    :style="{ backgroundColor: category.color }"
+                >
+                    <div class="project-item-header">
+                        <span class="project-header-category-name">{{ category.name }}</span>
+                        <span class="project-header-tasks-amount">{{ getCategoryTasksCount(category.name) }} tasks </span>
+                    </div>
+                    <div class="project-item-body">
+                        <!-- TODO -->
+                    </div>
+                    <div class="project-item-footer">
+                        <!-- TODO -->
+                    </div>
+                </div>
+                <div class="project-item project-create-category">
+                    <div class="project-item-header create-category-header">
+                        <span class="project-header-category-name">New Category</span>
+                        <span class="project-header-tasks-amount">click to create !</span>
+                    </div>
+                </div>
             </div>
             <div class="project-footer">
                 <span class="project-creation">Created on {{ project.creationDate }}, by {{ project.creator }}.</span>
@@ -51,6 +73,11 @@ const props = defineProps({
         required: true
     }
 });
+
+function getCategoryTasksCount(categoryName)
+{
+    return props.project.tasks.filter(task => task.category === categoryName).length;
+}
 
 function openProjectParameters()
 {
@@ -73,8 +100,8 @@ function openProjectSettings()
 }
 .project {
     padding: 16px;
-    width: calc(90% - 32px);
-    height: calc(90% - 32px);
+    width: calc(90% - 4px);
+    height: calc(90% - 8px);
     border: solid 2px var(--main-beige-16);
     border-radius: 8px;
     background-color: var(--main-beige-08);
@@ -115,8 +142,8 @@ function openProjectSettings()
     gap: 4px;
 }
 .project-infos-user-icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-color: var(--main-dark-brown-16);
     border: solid 2px var(--main-brown-64);
     border-radius: 24px;
@@ -145,11 +172,60 @@ function openProjectSettings()
 .project-option-button:hover {
     transform: scale(1.1);
 }
+
 /* BODY STYLES */
 .project-body {
     flex-grow: 1;
-    padding: 8px 0px;
-    background-color: lightcoral;
+    padding: 16px 4px;
+
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+.project-item {
+    width: 224px;
+    height: calc(100% - 16px);
+    border-radius: 16px;
+    box-shadow: 2px 2px 4px var(--main-shadow-color);
+    border: solid 1px transparent;
+    padding: 8px;
+
+    transition: box-shadow 0.33s ease, border 0.25s ease, border-radius 0.25s ease;
+}
+.project-item:hover {
+    box-shadow: none;
+    border: solid 1px var(--main-dark-brown-08);
+    border-radius: 24px;
+}
+.project-create-category {
+    /* width: fit-content; */
+    border: solid 2px var(--main-dark-brown-16);
+    box-shadow: none;
+}
+.project-create-category:hover {
+    border: solid 2px var(--main-dark-brown-32);
+    box-shadow: 2px 2px 4px var(--main-shadow-color);
+}
+.project-create-category:hover .create-category-header {
+    border-radius: 16px;
+    border-bottom: none;
+    background-color: var(--main-dark-brown-08);
+}
+
+/* INNER ITEM STYLES */
+.project-item-header {
+    padding: 4px 8px 8px 8px;
+    color: var(--main-dark-brown-64);
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid 1px var(--main-brown-32);
+}
+.project-header-category-name {
+    font-size: 20px;
+    font-weight: var(--urbanist-semibold);
+}
+.project-header-tasks-amount {
+    opacity: 0.8;
 }
 
 /* FOOTER STYLES */
