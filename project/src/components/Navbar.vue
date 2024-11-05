@@ -20,7 +20,7 @@
         </div>
         <div class="navbar-container-content">
             <!-- Here show the user's projects fetched from database -->
-            <div 
+            <button 
                 v-for="project in projects"
                 :key="project.name"
                 class="navbar-project-item navbar-content-item"
@@ -28,7 +28,7 @@
                 @click="openProject(project.name)"
             >
                 {{ project.name }}
-            </div>
+        </button>
             <button
                 class="navbar-create-item-button navbar-content-item"
                 :class="{ 'item-collapsed': isCollapsed}"
@@ -46,12 +46,12 @@
                 Kanban Handler, v0.0<br>by Jvaljer
             </span>
             <div class="navbar-footer-buttons">
-                <div class="navbar-help-button navbar-action-button">
+                <button class="navbar-action-button">
                     <img alt="Help" title="Help & Tips" class="navbar-action-button-image" src="@/assets/icons/help-icon.png"/>
-                </div>
-                <div class="navbar-legalmention-button navbar-action-button">
+                </button>
+                <button class="navbar-action-button">
                     <img alt="Documentation" title="Documentation" class="navbar-action-button-image" src="@/assets/icons/doc-icon.png"/>
-                </div>
+                </button>
             </div>
         </div>
     </div>
@@ -125,6 +125,7 @@ function backHome()
 .navbar-container {
     width: 304px;
     background: url('@/assets/background-images/navbar-bg.png');
+    border-right: solid 2px var(--main-beige);
     display: flex;
     flex-direction: column;
 
@@ -147,12 +148,13 @@ function backHome()
     align-items: center;
 
     height: fit-content;
-    border-bottom: solid 2px var(--main-beige);
+    border-bottom: solid 1px var(--main-beige);
 }
 .navbar-header-user-icon {
     width: 64px;
 }
 .navbar-header-user-icon:hover {
+    cursor: pointer;
     transform: scale(1.1);
 }
 .navbar-header-user-name {
@@ -171,7 +173,8 @@ function backHome()
     align-items: center;
 }
 .navbar-project-item {
-    width: 80%;
+    background: none;
+    width: 100%;
     padding: 16px;
     font-size: 20px;
     color: var(--main-dark-brown-64);
@@ -191,7 +194,7 @@ function backHome()
 }
 
 .navbar-create-item-button {
-    width: 92%;
+    width: 100%;
     padding: 16px;
     font-size: 20px;
     text-align: left;
@@ -223,6 +226,10 @@ function backHome()
     display: flex;
     flex-direction: row;
     gap: 8px;
+}
+.navbar-action-button {
+    border: 0px;
+    background: none;
 }
 .navbar-action-button:hover {
     transform: scale(1.1);

@@ -7,7 +7,7 @@
                     <div class="project-infos-collaborators">
                         <div v-for="user in project.participants"
                             :key="user"
-                            class="project-infos-user-icon"
+                            class="project-infos-user-icon hover-pointer"
                             :title="user"
                         >
                             <!-- TODO: find the picture (or color) related to this user in the DB -->
@@ -34,8 +34,9 @@
                 <!-- PUT THIS IN ANOTHER COMPONENT "CATEGORIE.VUE" -->
                 <div v-for="category in project.categories"
                     :key="category.name"
-                    class="project-item"
+                    class="project-item hover-pointer"
                     :style="{ backgroundColor: category.color }"
+                    @click="openItem(category)"
                 >
                     <div class="project-item-header">
                         <span class="project-header-category-name">{{ category.name }}</span>
@@ -45,14 +46,13 @@
                         <div v-for="task in getCategoryTasks(category.name)"
                             :key="category.name"
                             class="project-task"
+                            @click="openItem(task)"
                         >
                             <div class="task-header">
                                 <span class="task-name">{{ task.name }}</span>
-                                <span class="task-priority"
-                                    :style="{ backgroundColor: getPriorityColorFromTask(task), color: getPriorityTextOpacityFromTask(task) }"
-                                >
-                                    {{ task.priority }}
-                            </span>
+                                <div class="task-priority"
+                                    :style="{ backgroundColor: getPriorityColorFromTask(task) }"
+                                ></div>
                             </div>
                             <span class="task-description">{{ task.description }}</span>
                             <div class="task-state"
@@ -74,6 +74,15 @@
                         <span class="project-header-tasks-amount">click to create !</span>
                     </div>
                 </div>
+
+                <div v-show="detailOpened" class="project-item-details">
+                    <div class="item-details-content">Hello There</div>
+                    <button class="close-item-details"
+                        @click="closeItem"
+                    >
+                        X
+                    </button>
+                </div>
             </div>
             <div class="project-footer">
                 <span class="project-creation">Created on {{ project.creationDate }}, by {{ project.creator }}.</span>
@@ -86,6 +95,10 @@
   
 <!-- LOCAL SCRIPT -->
 <script setup>
+import { ref } from 'vue';
+
+const detailOpened = ref(false);
+const openedItem = ref();
 
 const props = defineProps({
     project: {
@@ -116,32 +129,13 @@ function getPriorityColorFromTask(task)
     switch (task.priority)
     {
         case 'Low':
-            resultColor = "var(--main-beige-16)";
+            resultColor = "var(--item-bright-yellow)";
             break;
         case 'Medium':
-            resultColor = "var(--main-beige-64)";
+            resultColor = "var(--item-bright-orange)";
             break;
         case 'High':
-            resultColor = "var(--main-beige)";
-            break;
-        default: break;
-    }
-    return resultColor;
-}
-
-function getPriorityTextOpacityFromTask(task)
-{
-    var resultColor = '';
-    switch (task.priority)
-    {
-        case 'Low':
-            resultColor = "var(--main-dark-brown-32)";
-            break;
-        case 'Medium':
-            resultColor = "var(--main-dark-brown-64)";
-            break;
-        case 'High':
-            resultColor = "var(--main-dark-brown-80)";
+            resultColor = "var(--item-bright-red)";
             break;
         default: break;
     }
@@ -161,6 +155,18 @@ function openProjectSettings()
 function addTaskByCategory(categoryName)
 {
     // TODO
+}
+
+function openItem(item)
+{
+    detailOpened.value = true;
+    openedItem = item;
+}
+
+function closeItem()
+{
+    detailOpened.value = false;
+    openedItem = null;
 }
 </script>
   
@@ -221,6 +227,11 @@ function addTaskByCategory(categoryName)
     background-color: var(--main-dark-brown-16);
     border: solid 2px var(--main-brown-64);
     border-radius: 24px;
+
+    transition: transform 0.25s ease;
+}
+.project-infos-user-icon:hover {
+    transform: scale(1.05);
 }
 
 .project-header-statistics {
@@ -246,6 +257,9 @@ function addTaskByCategory(categoryName)
 .project-option-button:hover {
     transform: scale(1.1);
 }
+.project-option-button:active {
+    transform: scale(1);
+}
 
 /* BODY STYLES */
 .project-body {
@@ -263,15 +277,18 @@ function addTaskByCategory(categoryName)
     height: calc(100% - 16px);
     border-radius: 16px;
     box-shadow: 2px 2px 4px var(--main-shadow-color);
-    border: solid 1px transparent;
+    border: solid 2px transparent;
     padding: 8px;
 
-    transition: box-shadow 0.33s ease, border 0.25s ease, border-radius 0.25s ease;
+    transition: box-shadow 0.33s ease, border 0.125s ease, border-radius 0.25s ease;
 }
 .project-item:hover {
     box-shadow: none;
-    border: solid 1px var(--main-dark-brown-08);
+    border: solid 2px var(--main-dark-brown-08);
     border-radius: 24px;
+}
+.project-item:active {
+    border: solid 2px var(--main-dark-brown-64);
 }
 .project-create-category {
     /* width: fit-content; */
@@ -281,6 +298,11 @@ function addTaskByCategory(categoryName)
 .project-create-category:hover {
     border: solid 2px var(--main-dark-brown-32);
     box-shadow: 2px 2px 4px var(--main-shadow-color);
+}
+.project-create-category:active {
+    border: solid 2px var(--main-dark-brown-64);
+    background-color: var(--main-beige-16);
+    box-shadow: none;
 }
 
 /* INNER ITEM STYLES */
@@ -321,6 +343,10 @@ function addTaskByCategory(categoryName)
     background-color: var(--main-dark-brown-04);
     border-radius: 16px;
 }
+.project-item-footer:active {
+    background-color: var(--main-dark-brown-16);
+    border-radius: 16px;
+}
 
 /* TASKS STYLE */
 .project-task {
@@ -338,6 +364,9 @@ function addTaskByCategory(categoryName)
 
     transition: transform 0.25s ease;
 }
+.task-name {
+    width: 80%;
+}
 .project-task:hover {
     transform: scale(1.025);
 }
@@ -349,8 +378,7 @@ function addTaskByCategory(categoryName)
 }
 .task-description {
     padding: 4px;
-    background-color: var(--main-brown-08);
-    opacity: 0.64;
+    background-color: var(--main-dark-brown-04);
     border-radius: 8px;
 }
 .task-state {
@@ -361,9 +389,10 @@ function addTaskByCategory(categoryName)
     width: fit-content;
 }
 .task-priority {
-    padding: 4px;
+    width: 12px;
+    height: 12px;
+    border: solid 1px var(--main-dark-brown-32);
     border-radius: 16px;
-    font-size: 12px;
 }
 
 /* FOOTER STYLES */
@@ -376,5 +405,17 @@ function addTaskByCategory(categoryName)
     margin-top: 4px;
     border-top: solid 2px var(--main-beige-16);
     color: var(--main-beige);
+}
+
+/* DETAILS STYLES */
+.project-item-details {
+    position: absolute;
+    top: calc(3% - 4px + 94px);
+    right: calc(3% + 8px);
+    height: 78%;
+    width: 50%;
+    background-color: var(--main-light-beige);
+    border: solid 2px var(--main-beige-32);
+    border-radius: 16px;
 }
 </style>
