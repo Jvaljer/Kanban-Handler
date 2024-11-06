@@ -37,6 +37,7 @@
                     class="project-item hover-pointer"
                     :style="{ backgroundColor: category.color }"
                     @click="openItem(category)"
+                    v-show="showCategory(category)"
                 >
                     <div class="project-item-header">
                         <span class="project-header-category-name">{{ category.name }}</span>
@@ -46,7 +47,7 @@
                         <div v-for="task in getCategoryTasks(category.name)"
                             :key="category.name"
                             class="project-task"
-                            @click="openItem(task)"
+                            @click.stop="openItem(task)"
                         >
                             <div class="task-header">
                                 <span class="task-name">{{ task.name }}</span>
@@ -62,20 +63,28 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="project-item-footer"
-                        @click="addTaskByCategory(category.name)"
+                        @click.stop="addTaskByCategory(category.name)"
                     >
                         <span class="project-add-task">Add New Task</span>
                     </div>
                 </div>
-                <div class="project-item project-create-category">
+
+                <div 
+                    v-show="!detailOpened"
+                    class="project-item project-create-category"
+                >
                     <div class="project-item-header create-category-header">
                         <span class="project-header-category-name">New Category</span>
                         <span class="project-header-tasks-amount">click to create !</span>
                     </div>
                 </div>
 
-                <div v-show="detailOpened" class="project-item-details">
+                <div
+                    v-show="detailOpened"
+                    class="project-item-details"
+                >
                     <div class="item-details-content">Hello There</div>
                     <button class="close-item-details"
                         @click="closeItem"
@@ -154,13 +163,26 @@ function openProjectSettings()
 
 function addTaskByCategory(categoryName)
 {
+    console.log("Adding task to "+categoryName);
     // TODO
+}
+function showCategory(category)
+{
+    if (detailOpened.value)
+    {
+        if (openedItem.value.category != undefined) //in this case TASK
+            return (openedItem.value.category === category.name);
+        else //otherwise CATEGORY
+            return (openedItem.value.name === category.name);
+    }
+    else
+        return true;
 }
 
 function openItem(item)
 {
     detailOpened.value = true;
-    openedItem = item;
+    openedItem.value = item;
 }
 
 function closeItem()
@@ -334,13 +356,17 @@ function closeItem()
     align-items: center;
     padding-top: 4px;
     border-top: solid 1px var(--main-brown-32);
+    border-right: solid 1px transparent;
+    border-bottom: solid 1px transparent;
+    border-left: solid 1px transparent;
     color: var(--main-dark-brown-48);
     background-color: transparent;
 
-    transition: border-radius 0.25s ease, background-color 0.33s ease;
+    transition: border-radius 0.25s ease, background-color 0.33s ease, border 0.33s ease;
 }
 .project-item-footer:hover {
     background-color: var(--main-dark-brown-04);
+    border: solid 1px var(--main-brown-32);
     border-radius: 16px;
 }
 .project-item-footer:active {
@@ -358,6 +384,7 @@ function closeItem()
     background-color: var(--main-light-beige-64);
     font-size: 16px;
     margin-bottom: 8px;
+    border: solid 2px transparent;
     border-radius: 8px;
     color: var(--main-dark-brown-80);
     box-shadow: 2px 2px 4px var(--main-dark-brown-16);
@@ -369,6 +396,11 @@ function closeItem()
 }
 .project-task:hover {
     transform: scale(1.025);
+}
+.project-task:active {
+    transform: scale(1);
+    box-shadow: none;
+    border: solid 2px var(--main-dark-brown);
 }
 .task-header {
     display: flex;
@@ -409,11 +441,7 @@ function closeItem()
 
 /* DETAILS STYLES */
 .project-item-details {
-    position: absolute;
-    top: calc(3% - 4px + 94px);
-    right: calc(3% + 8px);
-    height: 78%;
-    width: 50%;
+    flex-grow: 1;
     background-color: var(--main-light-beige);
     border: solid 2px var(--main-beige-32);
     border-radius: 16px;
