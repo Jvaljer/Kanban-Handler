@@ -24,7 +24,7 @@
                 v-for="project in projects"
                 :key="project.name"
                 class="navbar-project-item navbar-content-item"
-                :class="{ 'item-collapsed': isCollapsed}"
+                :class="{ 'item-collapsed': isCollapsed }"
                 @click="openProject(project.name)"
             >
                 {{ project.name }}
@@ -85,6 +85,7 @@ function toggleNavbar()
 
 function openProject(projectName)
 {
+    console.log("NAVBAR -> openProject("+projectName+")");
     emits('openProject', projectName);
 }
 

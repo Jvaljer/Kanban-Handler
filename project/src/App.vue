@@ -145,6 +145,7 @@ function fetchProjectsInDatabase(username)
 
 function searchProjectByName(name)
 {
+    console.log("APP -> searchProjectByName("+name+")");
     for (let project of projects.value)
     { 
         if (project.name === name)
@@ -164,6 +165,7 @@ function resizeContent()
 
 function openProject(projectName)
 {
+  console.log("APP -> openProject("+projectName+")");
   projectIsOpened.value = true;
   openedProject.value = searchProjectByName(projectName);
 }

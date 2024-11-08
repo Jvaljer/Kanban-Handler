@@ -17,7 +17,6 @@
 <script setup>
 import Dashboard from './Dashboard.vue';
 import Project from './Project.vue';
-import { ref } from 'vue';
 
 const props = defineProps({
     isExpanded: {
@@ -30,7 +29,7 @@ const props = defineProps({
         type: Object
     }
 });
-
+console.log("NAVBAR BRUH");
 </script>
   
 <!-- LOCAL STYLES -->
