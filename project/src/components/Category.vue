@@ -15,6 +15,7 @@
             <div v-for="task in getCategoryTasks(srcCategory.name)"
                 :key="task.name"
                 class="project-task"
+                draggable="true"
                 @click.stop="openTaskDetails(task)"
             >
                 <div class="task-header">
@@ -99,11 +100,13 @@ function addTaskForCategory(categoryName)
 
 function openCategoryDetails(category)
 {
+    console.log("Opening CATEGORY");
     emits('openCategory', category);
 }
 
 function openTaskDetails(task)
 {
+    console.log("Opening TASK");
     emits('openTask', task);
 }
 </script>

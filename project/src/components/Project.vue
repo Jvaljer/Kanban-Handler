@@ -53,7 +53,7 @@
                 <ProjectDetails
                     v-show="detailOpened"
                     :item="openedItem"
-                    :itemIsTask="itemIsTask"
+                    :itemIsTask="openedItemIsTask"
                     @closeItem="closeItem"
                 />
 
@@ -117,7 +117,7 @@ function openTaskDetails(task)
 
 function openItem(item, isTask)
 {
-    console.log("opening item: "+item.name);
+    console.log("opening item: "+item.name+" that is a task ("+isTask+")");
     detailOpened.value = true;
     openedItem.value = item;
     openedItemIsTask.value = isTask;
