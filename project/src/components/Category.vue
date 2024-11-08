@@ -7,7 +7,7 @@
 
         <div class="project-item-header">
             <span class="project-header-category-name">{{ srcCategory.name }}</span>
-            <span class="project-header-tasks-amount">{{ getCategoryTasksCount(srcCategory.name) }}</span>
+            <span class="project-header-tasks-amount">{{ getCategoryTasksCount(srcCategory.name) }} tasks</span>
         </div>
 
         <div class="project-item-body">
@@ -16,6 +16,9 @@
                 :key="task.name"
                 class="project-task"
                 draggable="true"
+                @dragstart="pickTaskItem($event, srcCategory.name, task.name)"
+                @dragover.prevent
+                @drop="dropTaskItem($event, srcCategory.name, task.name)"
                 @click.stop="openTaskDetails(task)"
             >
                 <div class="task-header">
@@ -54,6 +57,9 @@ const props = defineProps({
     project: {
         type: Object,
         required: true
+    },
+    defaultState: {
+        type: String
     }
 });
 
@@ -94,8 +100,18 @@ function getPriorityColorFromTask(task)
 
 function addTaskForCategory(categoryName)
 {
-    console.log("Adding task to "+categoryName);
-    // TODO
+    console.log("Adding task to "+categoryName+" with default state: "+props.defaultState);
+    
+    const newTask = { //yet an empty one
+        name: "Empty Task",
+        state: props.defaultState,
+        category: categoryName,
+        description: "This is an empty task ...",
+        priority: "Low"
+    }
+    console.log("New Task is: "+JSON.stringify(newTask));
+
+    props.project.tasks.push(newTask);
 }
 
 function openCategoryDetails(category)
@@ -109,6 +125,16 @@ function openTaskDetails(task)
     console.log("Opening TASK");
     emits('openTask', task);
 }
+
+function pickTaskItem(event, sourceCategoryName, pickedTaskName)
+{
+    // TODO
+}
+
+function dropTaskItem(event, sourceCategoryName, pickedTaskName)
+{
+    // TODO
+}
 </script>
   
 <!-- LOCAL STYLES -->
@@ -116,13 +142,13 @@ function openTaskDetails(task)
 .project-item {
     display: flex;
     flex-direction: column;
-    width: 224px;
-    min-width: 224px;
+    width: 232px;
+    min-width: 232px;
     height: calc(100% - 16px);
     border-radius: 16px;
     box-shadow: 2px 2px 4px var(--main-shadow-color);
     border: solid 2px transparent;
-    padding: 8px;
+    padding: 8px 0px;
 
     transition: box-shadow 0.33s ease, border 0.125s ease, border-radius 0.25s ease;
 }
@@ -153,9 +179,20 @@ function openTaskDetails(task)
 
 .project-item-body {
     flex-grow: 1;
-    padding-top: 16px;
+    /* padding-top: 16px; */
+    padding: 16px 8px 0px 8px;
     display: flex;
     flex-direction: column;
+
+    overflow-x: visible;
+    overflow-y: scroll;
+}
+.project-item-body::-webkit-scrollbar {
+  display: none;
+}
+.project-item-body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .project-item-footer {

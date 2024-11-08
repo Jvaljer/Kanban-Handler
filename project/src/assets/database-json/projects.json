@@ -1,0 +1,101 @@
+{
+    "projects": [
+        {
+            "name": "My Project",
+            "description": "Void project allowing me to test my front & semi-back (local JSON before DB)",
+            "participants": ["ahenry", "abelo"],
+            "states": [
+              {
+                "name": "pending",
+                "isDefault": true,
+                "color": "var(--item-base-red)"
+              },
+              {
+                "name": "in-progress",
+                "isDefault": false,
+                "color": "var(--item-base-yellow)"
+              },
+              {
+                "name": "advanced",
+                "isDefault": false,
+                "color": "var(--item-base-green)"
+              },
+              {
+                "name": "done",
+                "isDefault": false,
+                "color": "var(--item-base-blue)"
+              }
+            ],
+            "categories": [
+              {
+                "name": "Development",
+                "color": "var(--item-light-red)",
+                "description": "Dev-Oriented tasks, all tech concerned."
+              },
+              {
+                "name": "Design",
+                "color": "var(--item-light-green)",
+                "description": "Design-related tasks, wether it is UX, UI or Product ..."
+              },
+              {
+                "name": "Marketing",
+                "color": "var(--item-light-yellow)",
+                "description": "Whatever is concerning the selling and funding of the solution."
+              },
+              {
+                "name": "Other",
+                "color": "var(--item-light-blue)",
+                "description": "All tasks that cannot be put in any other category."
+              }
+            ],
+            "tasks": [
+              {
+                "name": "Setup Project",
+                "state": "pending",
+                "category": "Development",
+                "description": "Create core code organization.",
+                "priority": "High"
+              },
+              {
+                "name": "Refine UX",
+                "state": "in-progress",
+                "category": "Design",
+                "description": "Improve interactions and discoverability",
+                "priority": "High"
+              },
+              {
+                "name": "Write Pitch",
+                "state": "advanced",
+                "category": "Marketing",
+                "description": "Sales Pitch to obtain second fundings",
+                "priority": "Medium"
+              },
+              {
+                "name": "Make Slideshow",
+                "state": "done",
+                "category": "Marketing",
+                "description": "Create the slides for Sales Pitch",
+                "priority": "Low"
+              },
+              {
+                "name": "Design Smaller Interactions",
+                "state": "in-progress",
+                "category": "Design",
+                "description": "Find better small-interactions (hover, focus, active, ...)",
+                "priority": "Medium"
+              },
+              {
+                "name": "Try Crow-Funding",
+                "state": "pending",
+                "category": "Other",
+                "description": "Must put the project on kickstarter.",
+                "priority": "Low"
+              }
+            ],
+            "kanbanView": "category",
+            "creationDate": "11/04/2024",
+            "deadline": "none",
+            "creator": "ahenry"
+          }
+    ]
+}

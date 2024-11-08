@@ -30,11 +30,12 @@
                     </button>
                 </div>
             </div>
-            <div class="project-body">
+            <div id="scrollable-body" class="project-body">
                 <Category v-for="category in project.categories"
                     :key="category.name"
                     :srcCategory="category"
                     :project="project"
+                    :defaultState="defaultState"
                     @openTask="openTaskDetails"
                     @openCategory="openCategoryDetails"
                     v-show="showCategory(category)"
@@ -81,6 +82,9 @@ const props = defineProps({
     project: {
         type: Object,
         required: true
+    },
+    defaultState: {
+        type: String
     }
 });
 
@@ -229,12 +233,23 @@ function closeItem()
     display: flex;
     flex-direction: row;
     gap: 12px;
+
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.project-body::-webkit-scrollbar {
+  display: none;
+}
+.project-body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .project-create-category {
     display: flex;
     flex-direction: column;
     width: 224px;
+    min-width: 224px;
     height: calc(100% - 16px);
     border-radius: 16px;
     box-shadow: none;

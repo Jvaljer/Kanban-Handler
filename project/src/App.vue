@@ -1,6 +1,7 @@
 <template>
   <div class="app-container container">
     <Login @userConnect="onUserConnect" v-if="!isConnected"/>
+
     <Navbar v-if="isConnected" 
       :username="username"
       :projects="projects"
@@ -8,7 +9,14 @@
       @openProject="openProject"
       @backHome="closeProject"
     />
-    <Content v-if="isConnected" :isExpanded="contentExpanded" :projectOpened="projectIsOpened" :openedProject="openedProject"/>
+
+    <Content v-if="isConnected"
+      :isExpanded="contentExpanded"
+      :projectOpened="projectIsOpened"
+      :openedProject="openedProject"
+      :defaultState="defaultState"
+    />
+
   </div>
 </template>
 
@@ -20,114 +28,17 @@ import Navbar from './components/Navbar.vue';
 import Content from './components/Content.vue';
 import { ref } from 'vue';
 
-// test project -> basic project & organization as JSON, aim is to do the same then in the DB
-const debugProject = {
-  "name": "My Project",
-  "description": "Void project allowing me to test my front & semi-back (local JSON before DB)",
-  "participants": ["ahenry", "abelo"],
-  "states": [
-    {
-      "name": "pending",
-      "isDefault": true,
-      "color": "var(--item-base-red)"
-    },
-    {
-      "name": "in-progress",
-      "isDefault": false,
-      "color": "var(--item-base-yellow)"
-    },
-    {
-      "name": "advanced",
-      "isDefault": false,
-      "color": "var(--item-base-green)"
-    },
-    {
-      "name": "done",
-      "isDefault": false,
-      "color": "var(--item-base-blue)"
-    }
-  ],
-  "categories": [
-    {
-      "name": "Development",
-      "color": "var(--item-light-red)",
-      "description": "Dev-Oriented tasks, all tech concerned."
-    },
-    {
-      "name": "Design",
-      "color": "var(--item-light-green)",
-      "description": "Design-related tasks, wether it is UX, UI or Product ..."
-    },
-    {
-      "name": "Marketing",
-      "color": "var(--item-light-yellow)",
-      "description": "Whatever is concerning the selling and funding of the solution."
-    },
-    {
-      "name": "Other",
-      "color": "var(--item-light-blue)",
-      "description": "All tasks that cannot be put in any other category."
-    }
-  ],
-  "tasks": [
-    {
-      "name": "Setup Project",
-      "state": "pending",
-      "category": "Development",
-      "description": "Create core code organization.",
-      "priority": "High"
-    },
-    {
-      "name": "Refine UX",
-      "state": "in-progress",
-      "category": "Design",
-      "description": "Improve interactions and discoverability",
-      "priority": "High"
-    },
-    {
-      "name": "Write Pitch",
-      "state": "advanced",
-      "category": "Marketing",
-      "description": "Sales Pitch to obtain second fundings",
-      "priority": "Medium"
-    },
-    {
-      "name": "Make Slideshow",
-      "state": "done",
-      "category": "Marketing",
-      "description": "Create the slides for Sales Pitch",
-      "priority": "Low"
-    },
-    {
-      "name": "Design Smaller Interactions",
-      "state": "in-progress",
-      "category": "Design",
-      "description": "Find better small-interactions (hover, focus, active, ...)",
-      "priority": "Medium"
-    },
-    {
-      "name": "Try Crow-Funding",
-      "state": "pending",
-      "category": "Other",
-      "description": "Must put the project on kickstarter.",
-      "priority": "Low"
-    }
-  ],
-  "kanbanView": "category",
-  "creationDate": "11/04/2024",
-  "deadline": "none",
-  "creator": "ahenry"
-};
+import projectsData from '@/assets/database-json/projects.json';
 
-// TODO: make another one that has "kanbanView = "category" to test both layouts
+const projects = ref(projectsData.projects);
 
 // Define a reactive variable to track connection status
 const isConnected = ref(false);
 const username = ref(''); // and the user's info
-const projects = ref([]);
 const contentExpanded = ref(false);
 const projectIsOpened = ref(false);
 const openedProject = ref();
+const defaultState = ref('');
 
 // Function triggered when userConnect event is emitted
 function onUserConnect(user) {
@@ -138,24 +49,47 @@ function onUserConnect(user) {
 
 function fetchProjectsInDatabase(username)
 {
-  // TODO: link this to a DB that retrieve possible projects for user
-  const projectList = [ debugProject ];
+  var projectList = [];
+  if (projects.value)
+  {
+    for (const project in projects.value)
+    {
+      if (project.participants.includes(username))
+      {
+        projectList.push(project);
+      }
+    }
+  }
   return projectList;
 }
 
 function searchProjectByName(name)
 {
-    console.log("APP -> searchProjectByName("+name+")");
     for (let project of projects.value)
     { 
         if (project.name === name)
         {
-            console.log("Found it!");
             return project;
         }
     }
-    console.log("No project found ...");
     return null;
+}
+
+function searchDefaultStateInProject(project)
+{
+  if (project == null) return "ERR_NO_PROJECT";
+
+  console.log("Searching default  state in : "+JSON.stringify(project.states));
+  for (const state of project.states)
+  {
+    console.log("project state : "+JSON.stringify(state));
+    if (state.isDefault)
+    {
+      console.log("Found default !");
+      return state.name;
+    }
+  }
+  return "ERR_NO_DEFAULT_STATE";
 }
 
 function resizeContent()
@@ -168,6 +102,8 @@ function openProject(projectName)
   console.log("APP -> openProject("+projectName+")");
   projectIsOpened.value = true;
   openedProject.value = searchProjectByName(projectName);
+  defaultState.value = searchDefaultStateInProject(openedProject.value);
+  console.log("APP -> DefaultState is "+defaultState.value);
 }
 
 function closeProject()

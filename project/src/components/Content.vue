@@ -8,7 +8,7 @@
         :class="{ 'content-container-expanded': isExpanded }"
     >
         <Dashboard v-if="!projectOpened"/>
-        <Project v-if="projectOpened" :project="openedProject"/> <!-- Needs a precision on WHICH project is opened -->
+        <Project v-if="projectOpened" :project="openedProject" :defaultState="defaultState"/> <!-- Needs a precision on WHICH project is opened -->
     </div>
 </template>
   
@@ -27,9 +27,13 @@ const props = defineProps({
     },
     openedProject: {
         type: Object
+    },
+    defaultState: {
+        type: String
     }
 });
-console.log("NAVBAR BRUH");
+
+console.log("CONTENT -> DefaultState is "+props.defaultState);
 </script>
   
 <!-- LOCAL STYLES -->
