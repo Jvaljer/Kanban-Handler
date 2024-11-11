@@ -108,8 +108,6 @@ function getPriorityColorFromTask(task)
 
 function addTaskForCategory(categoryName)
 {
-    console.log("Adding task to "+categoryName+" with default state: "+props.defaultState);
-    
     const newTask = { //yet an empty one
         name: "Empty Task",
         state: props.defaultState,
@@ -117,20 +115,17 @@ function addTaskForCategory(categoryName)
         description: "This is an empty task ...",
         priority: "Low"
     }
-    console.log("New Task is: "+JSON.stringify(newTask));
 
     props.project.tasks.push(newTask);
 }
 
 function openCategoryDetails(category)
 {
-    console.log("Opening CATEGORY");
     emits('openCategory', category);
 }
 
 function openTaskDetails(task)
 {
-    console.log("Opening TASK");
     emits('openTask', task);
 }
 
@@ -228,6 +223,8 @@ function dropTaskItem(event, sourceCategoryName, pickedTaskName)
     transition: border-radius 0.25s ease, background-color 0.33s ease, border 0.33s ease;
 }
 .project-item-footer:hover {
+    width: 80%;
+    align-self: center;
     background-color: var(--main-dark-brown-04);
     border: solid 1px var(--main-brown-32);
     border-radius: 16px;

@@ -3,7 +3,7 @@
         <div class="dashboard">
             <div class="dashboard-left">
                 <div class="dashboard-upcoming-deadlines">
-                    <!-- TODO  -->
+                    <DeadlineProject v-for="project in getUpcomingDeadlinesProjects" />
                 </div>
                 <div class="dashboard-graph">
                     <!-- TODO  -->
@@ -29,6 +29,52 @@
   
 <!-- LOCAL SCRIPT -->
 <script setup>
+import { ref } from 'vue';
+import DeadlineProject from './DeadlineProject.vue';
+
+const props = defineProps({
+    todayDate: {
+        type: String,
+        required: true
+    },
+    projects: {
+        type: Array,
+        required: true
+    }
+});
+
+// Here we wanna calculate a bunch of stuff:
+/*
+ - The projects that have an upcoming deadline
+ - The latest opened project (or the most productive ??)
+    + Data to make the graph ...
+*/
+
+function getUpcomingDeadlinesProjects()
+{
+    // Project has an upcoming deadline when the deadline is 7 (or less) days far from today.
+    var deadlineProjects = [];
+    
+    if (projects.value)
+    {
+        for (project in projects.value)
+        {
+            const deadlineDate = project.deadline;
+            if (deadlineDate != "none")
+            {
+                // TODO
+            }
+        }
+    }
+}
+
+function getLastOpenedProject()
+{
+    // Here must get the projects that have the closest 'lastOpen' date
+        // Then how to select ??
+    // TODO 
+}
+
 </script>
   
 <!-- LOCAL STYLES -->
@@ -40,6 +86,9 @@
     align-items: center;
 }
 .dashboard {
+
+    display: flex;
+    flex-direction: row;
     padding: 16px;
     width: calc(90% - 32px);
     height: calc(90% - 32px);

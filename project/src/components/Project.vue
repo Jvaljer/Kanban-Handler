@@ -30,7 +30,7 @@
                     </button>
                 </div>
             </div>
-            <div id="scrollable-body" class="project-body">
+            <div id="scrollable-body" class="project-body" ref="scrollableBody">
                 <Category v-for="category in project.categories"
                     :key="category.name"
                     :srcCategory="category"
@@ -73,12 +73,14 @@
 <!-- LOCAL SCRIPT -->
 <script setup>
 import Category from './Category.vue';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import ProjectDetails from './ProjectDetails.vue';
 
 const detailOpened = ref(false);
 const openedItem = ref();
 const openedItemIsTask = ref(false);
+
+const scrollableBody = ref(null);
 
 const props = defineProps({
     project: {
@@ -134,6 +136,26 @@ function closeItem()
     detailOpened.value = false;
     openedItem = null;
 }
+
+// Horizontal Scrolling Behaviour
+function handleWheelScroll(event) {
+    event.preventDefault();
+    if (scrollableBody.value) {
+        scrollableBody.value.scrollLeft += event.deltaY;
+    }
+}
+
+onMounted(() => {
+    if (scrollableBody.value) {
+        scrollableBody.value.addEventListener('wheel', handleWheelScroll, { passive: false });
+    }
+});
+
+onUnmounted(() => {
+    if (scrollableBody.value) {
+        scrollableBody.value.removeEventListener('wheel', handleWheelScroll);
+    }
+});
 </script>
   
 <!-- LOCAL STYLES -->

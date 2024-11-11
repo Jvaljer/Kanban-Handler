@@ -30,22 +30,30 @@
               {
                 "name": "Development",
                 "color": "var(--item-light-red)",
-                "description": "Dev-Oriented tasks, all tech concerned."
+                "description": "Dev-Oriented tasks, all tech concerned.",
+                "unfinishedTasks": "1",
+                "finishedTasks": "0"
               },
               {
                 "name": "Design",
                 "color": "var(--item-light-green)",
-                "description": "Design-related tasks, wether it is UX, UI or Product ..."
+                "description": "Design-related tasks, wether it is UX, UI or Product ...",
+                "unfinishedTasks": "2",
+                "finishedTasks": "1"
               },
               {
                 "name": "Marketing",
                 "color": "var(--item-light-yellow)",
-                "description": "Whatever is concerning the selling and funding of the solution."
+                "description": "Whatever is concerning the selling and funding of the solution.",
+                "unfinishedTasks": "2",
+                "finishedTasks": "3"
               },
               {
                 "name": "Other",
                 "color": "var(--item-light-blue)",
-                "description": "All tasks that cannot be put in any other category."
+                "description": "All tasks that cannot be put in any other category.",
+                "unfinishedTasks": "1",
+                "finishedTasks": "2"
               }
             ],
             "tasks": [
@@ -93,9 +101,10 @@
               }
             ],
             "kanbanView": "category",
-            "creationDate": "11/04/2024",
+            "creationDate": "04-11-2024",
             "deadline": "none",
-            "creator": "ahenry"
+            "creator": "ahenry",
+            "lastOpen": "11-11-2024"
           }
     ]
 }

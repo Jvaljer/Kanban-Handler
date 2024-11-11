@@ -15,6 +15,7 @@
       :projectOpened="projectIsOpened"
       :openedProject="openedProject"
       :defaultState="defaultState"
+      :allProjects="projects.value"
     />
 
   </div>
@@ -29,8 +30,12 @@ import Content from './components/Content.vue';
 import { ref } from 'vue';
 
 import projectsData from '@/assets/database-json/projects.json';
+import loginsData from '@/assets/database-json/logins.json';
+import usersData from '@/assets/database-json/users.json';
 
 const projects = ref(projectsData.projects);
+const logins = ref(loginsData.logins);
+const usersInfos = ref(usersData.users);
 
 // Define a reactive variable to track connection status
 const isConnected = ref(false);
@@ -49,6 +54,7 @@ function onUserConnect(user) {
 
 function fetchProjectsInDatabase(username)
 {
+  // If many projects, should be better to retrieve the list of user's project and then grab it from DB
   var projectList = [];
   if (projects.value)
   {
@@ -79,13 +85,10 @@ function searchDefaultStateInProject(project)
 {
   if (project == null) return "ERR_NO_PROJECT";
 
-  console.log("Searching default  state in : "+JSON.stringify(project.states));
   for (const state of project.states)
   {
-    console.log("project state : "+JSON.stringify(state));
     if (state.isDefault)
     {
-      console.log("Found default !");
       return state.name;
     }
   }
@@ -99,11 +102,9 @@ function resizeContent()
 
 function openProject(projectName)
 {
-  console.log("APP -> openProject("+projectName+")");
   projectIsOpened.value = true;
   openedProject.value = searchProjectByName(projectName);
   defaultState.value = searchDefaultStateInProject(openedProject.value);
-  console.log("APP -> DefaultState is "+defaultState.value);
 }
 
 function closeProject()

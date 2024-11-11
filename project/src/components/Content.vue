@@ -7,7 +7,7 @@
     <div class="content-container"
         :class="{ 'content-container-expanded': isExpanded }"
     >
-        <Dashboard v-if="!projectOpened"/>
+        <Dashboard v-if="!projectOpened" :todayDate="todayDate" :projects="allProjects"/>
         <Project v-if="projectOpened" :project="openedProject" :defaultState="defaultState"/> <!-- Needs a precision on WHICH project is opened -->
     </div>
 </template>
@@ -17,6 +17,8 @@
 <script setup>
 import Dashboard from './Dashboard.vue';
 import Project from './Project.vue';
+
+const todayDate = ref("");
 
 const props = defineProps({
     isExpanded: {
@@ -30,10 +32,22 @@ const props = defineProps({
     },
     defaultState: {
         type: String
+    },
+    allProjects: {
+        type: Array,
+        required: true
     }
 });
 
-console.log("CONTENT -> DefaultState is "+props.defaultState);
+const date = new Date();
+
+// turn into DD-MM-YYYY
+const day = date.getDate();
+const month = date.getMonth();
+const year = date.getFullYear();
+
+todayDate.value = ""+day+"-"+month+"-"+year;
+
 </script>
   
 <!-- LOCAL STYLES -->
