@@ -85,7 +85,6 @@ function toggleNavbar()
 
 function openProject(projectName)
 {
-    console.log("NAVBAR -> openProject("+projectName+")");
     emits('openProject', projectName);
 }
 

@@ -15,6 +15,7 @@
             <div v-for="task in getCategoryTasks(srcCategory.name)"
                 :key="task.name"
                 class="project-task"
+                :class="{ 'notOpenedTask': taskIsNotOpened(task.name) && detailsOpened }"
                 draggable="true"
                 @dragstart="pickTaskItem($event, srcCategory.name, task.name)"
                 @dragover.prevent
@@ -60,6 +61,13 @@ const props = defineProps({
     },
     defaultState: {
         type: String
+    },
+    detailsOpened: {
+        type: Boolean,
+        required: true
+    },
+    openedItem: {
+        type: Object
     }
 });
 
@@ -124,6 +132,16 @@ function openTaskDetails(task)
 {
     console.log("Opening TASK");
     emits('openTask', task);
+}
+
+function taskIsNotOpened(taskName)
+{
+    if (props.openedItem)
+    {
+        console.log("task '"+taskName+"' is '"+props.openedItem.name+"'");
+        return !(taskName === props.openedItem.name);
+    }
+    return true;
 }
 
 function pickTaskItem(event, sourceCategoryName, pickedTaskName)
@@ -234,13 +252,14 @@ function dropTaskItem(event, sourceCategoryName, pickedTaskName)
     color: var(--main-dark-brown-80);
     box-shadow: 2px 2px 4px var(--main-dark-brown-16);
 
-    transition: transform 0.25s ease;
+    transition: all 0.25s ease;
 }
 .task-name {
     width: 80%;
 }
 .project-task:hover {
-    transform: scale(1.025);
+    box-shadow: none;
+    border: solid 2px var(--main-dark-brown-16);
 }
 .project-task:active {
     transform: scale(1);
@@ -270,5 +289,9 @@ function dropTaskItem(event, sourceCategoryName, pickedTaskName)
     height: 12px;
     border: solid 1px var(--main-dark-brown-32);
     border-radius: 16px;
+}
+
+.notOpenedTask {
+    opacity: 0.32;
 }
 </style>

@@ -36,6 +36,8 @@
                     :srcCategory="category"
                     :project="project"
                     :defaultState="defaultState"
+                    :detailsOpened="detailOpened"
+                    :openedItem="openedItem"
                     @openTask="openTaskDetails"
                     @openCategory="openCategoryDetails"
                     v-show="showCategory(category)"
@@ -52,7 +54,7 @@
                 </div>
 
                 <ProjectDetails
-                    v-show="detailOpened"
+                    v-if="detailOpened"
                     :item="openedItem"
                     :itemIsTask="openedItemIsTask"
                     @closeItem="closeItem"
