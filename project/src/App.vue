@@ -15,7 +15,7 @@
       :projectOpened="projectIsOpened"
       :openedProject="openedProject"
       :defaultState="defaultState"
-      :allProjects="projects.value"
+      :allProjects="projects"
     />
 
   </div>
@@ -58,9 +58,9 @@ function fetchProjectsInDatabase(username)
   var projectList = [];
   if (projects.value)
   {
-    for (const project in projects.value)
+    for (const project of projects.value)
     {
-      if (project.participants.includes(username))
+      if (project.participants.includes(username)) // error here ...
       {
         projectList.push(project);
       }

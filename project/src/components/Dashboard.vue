@@ -3,7 +3,9 @@
         <div class="dashboard">
             <div class="dashboard-left">
                 <div class="dashboard-upcoming-deadlines">
-                    <DeadlineProject v-for="project in getUpcomingDeadlinesProjects" />
+                    <DeadlineProject v-for="project in getUpcomingDeadlinesProjects()"
+                        :project="project"
+                    />
                 </div>
                 <div class="dashboard-graph">
                     <!-- TODO  -->
@@ -38,7 +40,7 @@ const props = defineProps({
         required: true
     },
     projects: {
-        type: Array,
+        type: Object,
         required: true
     }
 });
@@ -55,14 +57,30 @@ function getUpcomingDeadlinesProjects()
     // Project has an upcoming deadline when the deadline is 7 (or less) days far from today.
     var deadlineProjects = [];
     
-    if (projects.value)
+    if (props.projects)
     {
-        for (project in projects.value)
+        for (const project of props.projects)
         {
             const deadlineDate = project.deadline;
             if (deadlineDate != "none")
             {
-                // TODO
+                const [dayNow, monthNow, yearNow] = props.todayDate.split("-");
+                const [dayEnd, monthEnd, yearEnd] = deadlineDate.split("-");
+                // Month is 0-indexed BUT NOT IN DATE NOW !!
+                const dateNow = new Date(yearNow, monthNow, dayNow); 
+                const dateEnd = new Date(yearEnd, monthEnd - 1, dayEnd);
+
+                // Difference in milliseconds
+                const dateDiffMs = Math.abs(dateEnd - dateNow);
+
+                // Convert milliseconds to days
+                const dateDiffDays = dateDiffMs / (1000 * 60 * 60 * 24);
+
+                if (dateDiffDays <= 7)
+                {
+                    console.log("Project '"+project.name+"' is "+dateDiffDays+" days from deadline !");
+                    deadlineProjects.push(project);
+                }
             }
         }
     }

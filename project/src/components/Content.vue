@@ -15,6 +15,8 @@
   
 <!-- LOCAL SCRIPT -->
 <script setup>
+import { ref } from 'vue';
+
 import Dashboard from './Dashboard.vue';
 import Project from './Project.vue';
 
