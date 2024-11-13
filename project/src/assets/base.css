@@ -17,6 +17,7 @@
     --main-beige-08: rgba(218, 192, 163, 0.08);
     --main-beige-16: rgba(218, 192, 163, 0.16);
     --main-beige-32: rgba(218, 192, 163, 0.32);
+    --main-beige-56: rgba(218, 192, 163, 0.56);
     --main-beige-64: rgba(218, 192, 163, 0.64);
     --main-beige-80: rgba(218, 192, 163, 0.8);
     --main-brown-64: rgba(96, 63, 38, 0.64);
@@ -44,35 +45,46 @@
     --item-base-orange:rgb(242, 230, 206);
     --item-base-yellow: rgb(239, 229, 189);
     --item-base-green: rgb(226, 229, 189);
+    --item-base-cyan: rgb(231, 233, 217);
     --item-base-blue: rgb(219, 221, 209);
+    --item-base-purple: rgb(240, 224, 217);
     --item-base-grey: rgb(219, 209, 189);
     /* Light Colors */
     --item-light-red: rgb(242, 224, 206);
     --item-light-orange: rgb(239, 222, 189);
     --item-light-yellow: rgb(242, 234, 206);
     --item-light-green: rgb(235, 234, 206);
+    --item-light-cyan: rgb(212, 232, 220);
     --item-light-blue: rgb(231, 230, 217);
+    --item-light-purple: rgb(237, 205, 220);
     --item-light-grey: rgb(231, 224, 206);
     /* Bright Colors */
     --item-bright-red: rgb(242, 173, 156);
     --item-bright-orange: rgb(242, 212, 156);
     --item-bright-yellow: rgb(242, 232, 156);
     --item-bright-green: rgb(202, 234, 156);
+    --item-bright-cyan: rgb(164, 229, 228);
     --item-bright-blue: rgb(181, 210, 217);
+    --item-bright-purple: rgb(227, 154, 221);
     --item-bright-grey: rgb(181, 173, 156);
     /* Darker Colors */
     --item-dark-red: rgb(168, 100, 90);
+    --item-dark-orange: rgb(210, 168, 90);
     --item-dark-yellow: rgb(160, 153, 90);
     --item-dark-green: rgb(125, 158, 90);
+    --item-dark-cyan: rgb(108, 171, 174);
     --item-dark-blue: rgb(105, 138, 152);
+    --item-dark-purple: rgb(160, 100, 159);
     --item-dark-grey: rgb(105, 100, 90);
-
-    /* Fancy Colors */
-    --item-fancy-pink: rgb(242, 173, 209);
-    --item-fancy-purple: rgb(214, 173, 217);
-    --item-fancy-cyan: rgb(162, 233, 221);
-    --item-fancy-orange: rgb(242, 196, 156);
-    --item-fancy-white: rgb(252, 249, 245);
+    /* Darker Colors with reduced opacity (to match categories bg) */
+    --category-dark-red: rgba(168, 100, 90, 0.32);
+    --category-dark-orange: rgba(210, 168, 90, 0.32);
+    --category-dark-yellow: rgba(160, 153, 90, 0.32);
+    --category-dark-green: rgba(125, 158, 90, 0.32);
+    --category-dark-cyan: rgba(108, 171, 174, 0.32);
+    --category-dark-blue: rgba(105, 138, 152, 0.32);
+    --category-dark-purple: rgba(160, 100, 159, 0.32);
+    --category-dark-grey: rgba(105, 100, 90, 0.32);
 
     /* -----------------------------
         Fonts (1 read 1 design)

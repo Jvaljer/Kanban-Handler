@@ -3,8 +3,9 @@
         <div class="dashboard">
             <div class="dashboard-left">
                 <div class="dashboard-upcoming-deadlines">
-                    <DeadlineProject v-for="project in getUpcomingDeadlinesProjects()"
-                        :project="project"
+                    <DeadlineProject v-for="projectName of deadlineProjects.keys()"
+                        :project="deadlineProjects.get(projectName)[0]"
+                        :deadlineCount="deadlineProjects.get(projectName)[1]"
                     />
                 </div>
                 <div class="dashboard-graph">
@@ -52,10 +53,13 @@ const props = defineProps({
     + Data to make the graph ...
 */
 
+const deadlineProjects = ref(getUpcomingDeadlinesProjects());
+
 function getUpcomingDeadlinesProjects()
 {
     // Project has an upcoming deadline when the deadline is 7 (or less) days far from today.
-    var deadlineProjects = [];
+    
+    var result = new Map();;
     
     if (props.projects)
     {
@@ -77,12 +81,13 @@ function getUpcomingDeadlinesProjects()
                 const dateDiffDays = dateDiffMs / (1000 * 60 * 60 * 24);
 
                 if (dateDiffDays <= 7)
-                {
-                    console.log("Project '"+project.name+"' is "+dateDiffDays+" days from deadline !");
-                    deadlineProjects.push(project);
+                {                    
+                    result.set(""+project.name, [project, dateDiffDays]);
                 }
             }
         }
+        
+        return result;
     }
 }
 
@@ -104,7 +109,6 @@ function getLastOpenedProject()
     align-items: center;
 }
 .dashboard {
-
     display: flex;
     flex-direction: row;
     padding: 16px;

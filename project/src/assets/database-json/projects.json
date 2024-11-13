@@ -1,7 +1,7 @@
 {
     "projects": [
         {
-            "name": "My Project",
+            "name": "Random Project",
             "description": "Void project allowing me to test my front & semi-back (local JSON before DB)",
             "participants": ["ahenry", "abelo"],
             "states": [
@@ -105,6 +105,126 @@
             "deadline": "16-11-2024",
             "creator": "ahenry",
             "lastOpen": "11-11-2024"
+          },
+          {
+            "name": "AquaSense",
+            "description": "A smart water-monitoring system combining IoT sensors and a mobile app to track water usage, detect leaks, and monitor water quality.",
+            "participants": ["abelo", "ahenry"],
+            "states": [
+              {
+                "name": "pending",
+                "isDefault": true,
+                "color": "var(--item-bright-red)"
+              },
+              {
+                "name": "in-progress",
+                "isDefault": false,
+                "color": "var(--item-bright-yellow)"
+              },
+              {
+                "name": "advanced",
+                "isDefault": false,
+                "color": "var(--item-bright-green)"
+              },
+              {
+                "name": "done",
+                "isDefault": false,
+                "color": "var(--item-bright-blue)"
+              }
+            ],
+            "categories": [
+              {
+                "name": "Hardware Development",
+                "color": "var(--category-dark-purple)",
+                "description": "Tasks focused on designing and prototyping the hardware sensors.",
+                "unfinishedTasks": "1",
+                "finishedTasks": "3"
+              },
+              {
+                "name": "Software Development",
+                "color": "var(--category-dark-blue)",
+                "description": "Tasks related to mobile app development and server integration.",
+                "unfinishedTasks": "3",
+                "finishedTasks": "2"
+              },
+              {
+                "name": "Testing",
+                "color": "var(--category-dark-orange)",
+                "description": "Tasks involving the testing of hardware and software components.",
+                "unfinishedTasks": "2",
+                "finishedTasks": "0"
+              },
+              {
+                "name": "Marketing & Outreach",
+                "color": "var(--category-dark-green)",
+                "description": "Tasks related to promoting AquaSense and planning its launch.",
+                "unfinishedTasks": "2",
+                "finishedTasks": "1"
+              }
+            ],
+            "tasks": [
+              {
+                "name": "Design Water Sensors",
+                "state": "in-progress",
+                "category": "Hardware Development",
+                "description": "Design initial prototype of water flow and quality sensors.",
+                "priority": "High"
+              },
+              {
+                "name": "Develop Mobile App",
+                "state": "pending",
+                "category": "Software Development",
+                "description": "Build the core mobile app interface for tracking water usage and receiving alerts.",
+                "priority": "High"
+              },
+              {
+                "name": "Set Up Cloud Database",
+                "state": "in-progress",
+                "category": "Software Development",
+                "description": "Create database for storing water usage and sensor data.",
+                "priority": "Medium"
+              },
+              {
+                "name": "Integrate Leak Detection",
+                "state": "pending",
+                "category": "Software Development",
+                "description": "Add real-time leak detection feature to mobile app.",
+                "priority": "High"
+              },
+              {
+                "name": "Hardware Testing",
+                "state": "pending",
+                "category": "Testing",
+                "description": "Test sensor reliability and data accuracy in various water conditions.",
+                "priority": "Medium"
+              },
+              {
+                "name": "App Beta Testing",
+                "state": "in-progress",
+                "category": "Testing",
+                "description": "Conduct beta tests with initial users and gather feedback.",
+                "priority": "Medium"
+              },
+              {
+                "name": "Social Media Campaign",
+                "state": "advanced",
+                "category": "Marketing & Outreach",
+                "description": "Launch social media campaign to promote AquaSense before launch.",
+                "priority": "Low"
+              },
+              {
+                "name": "Create Product Demo",
+                "state": "pending",
+                "category": "Marketing & Outreach",
+                "description": "Produce a video demo showing AquaSense features and benefits.",
+                "priority": "High"
+              }
+            ],
+            "kanbanView": "state",
+            "creationDate": "13-11-2024",
+            "deadline": "19-11-2024",
+            "creator": "abelo",
+            "lastOpen": "10-11-2024"
           }
     ]
 }

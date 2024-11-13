@@ -257,6 +257,7 @@ function dropTaskItem(event, sourceCategoryName, pickedTaskName)
 .project-task:hover {
     box-shadow: none;
     border: solid 2px var(--main-dark-brown-16);
+    border-radius: 16px;
 }
 .project-task:active {
     transform: scale(1);
