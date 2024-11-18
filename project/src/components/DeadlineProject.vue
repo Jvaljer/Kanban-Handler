@@ -1,5 +1,5 @@
 <template>
-    <div class="deadline-project-container urbanist"
+    <div class="deadline-project-container urbanist hover-pointer"
         :class="{ 'short-deadline-border': deadlineCount<=3 }">
         <div class="deadline-header"
             :class="{ 'short-deadline-color': deadlineCount<=3 }"
@@ -16,8 +16,9 @@
              <div class="deadline-categories">
                 <div v-for="category in project.categories"
                     :key="category.name"
-                    class="deadline-category-count"
-                    :style="{ 'backgroundColor': getCategoryColor(category) }"
+                    class="deadline-category-count hover-pointer"
+                    :style="{ 'backgroundColor': category.color }"
+                    @click="openProjectWithDetail(project.name, category.name)"
                 >
                     {{ category.unfinishedTasks }}
                 </div>
@@ -40,9 +41,12 @@ const props = defineProps({
     }
 });
 
-function getCategoryColor(category)
+const emits = defineEmits(['openProjectCategory']);
+
+function openProjectWithDetail(projectName, categoryName)
 {
-    return category.color;
+    console.log("Deadline -> Opening "+projectName+" with category "+categoryName);
+    emits('openProjectCategory', projectName, categoryName);
 }
 </script>
   
@@ -54,8 +58,16 @@ function getCategoryColor(category)
 
     border-radius: 16px;
     border: solid 4px var(--main-beige-56);
+    background-color: var(--main-light-beige);
     overflow: hidden;
+
+    transition: all 0.25s ease;
 }
+.deadline-project-container:hover {
+    transform: scale(1.025);
+    border-radius: 20px;
+}
+
 
 .short-deadline-border {
     border: solid 4px var(--item-bright-red);
@@ -108,5 +120,14 @@ function getCategoryColor(category)
 
     width: 64px;
     height: 64px;
+
+    transition: all 0.25s ease;
+}
+.deadline-category-count:hover {
+    transform: scale(1.025);
+    opacity: 0.8;
+    border-radius: 20px;
+    /* border: solid 2px var(--main-dark-brown-48);
+    color: var(--main-dark-brown-64); */
 }
 </style>

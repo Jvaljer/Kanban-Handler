@@ -13,9 +13,12 @@
     <Content v-if="isConnected"
       :isExpanded="contentExpanded"
       :projectOpened="projectIsOpened"
+      :categoryOpened="categoryIsOpened"
       :openedProject="openedProject"
+      :openedCategory="openedCategory"
       :defaultState="defaultState"
       :allProjects="projects"
+      @openProjectWithCategory="openProjectWithCategory"
     />
 
   </div>
@@ -42,7 +45,9 @@ const isConnected = ref(false);
 const username = ref(''); // and the user's info
 const contentExpanded = ref(false);
 const projectIsOpened = ref(false);
+const categoryIsOpened = ref(false);
 const openedProject = ref();
+const openedCategory = ref();
 const defaultState = ref('');
 
 // Function triggered when userConnect event is emitted
@@ -95,6 +100,18 @@ function searchDefaultStateInProject(project)
   return "ERR_NO_DEFAULT_STATE";
 }
 
+function searchCategoryInProject(project, categoryName)
+{
+  for (const category of project.categories)
+  {
+    if (category.name === categoryName)
+    {
+      return category;
+    }
+  }
+  return "ERR_CATEGORY_NOT_FOUND";
+}
+
 function resizeContent()
 {
   contentExpanded.value = !contentExpanded.value;
@@ -105,6 +122,15 @@ function openProject(projectName)
   projectIsOpened.value = true;
   openedProject.value = searchProjectByName(projectName);
   defaultState.value = searchDefaultStateInProject(openedProject.value);
+}
+function openProjectWithCategory(projectName, categoryName)
+{
+  console.log("App -> Received the emit for "+projectName+" with "+categoryName);
+  projectIsOpened.value = true;
+  categoryIsOpened.value = true;
+  openedProject.value = searchProjectByName(projectName);
+  defaultState.value = searchDefaultStateInProject(openedProject.value);
+  openedCategory.value = searchCategoryInProject(openedProject.value, categoryName);
 }
 
 function closeProject()

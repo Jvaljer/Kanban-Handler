@@ -6,6 +6,7 @@
                     <DeadlineProject v-for="projectName of deadlineProjects.keys()"
                         :project="deadlineProjects.get(projectName)[0]"
                         :deadlineCount="deadlineProjects.get(projectName)[1]"
+                        @openProjectCategory="openProjectCategory"
                     />
                 </div>
                 <div class="dashboard-graph">
@@ -45,6 +46,8 @@ const props = defineProps({
         required: true
     }
 });
+
+const emits = defineEmits(['openProjectCategory']);
 
 // Here we wanna calculate a bunch of stuff:
 /*
@@ -98,6 +101,13 @@ function getLastOpenedProject()
     // TODO 
 }
 
+function openProjectCategory(projectName, categoryName)
+{
+    console.log("Dashboard -> Received opening "+projectName+" with "+categoryName);
+
+    console.log("Dashboard -> Sending emit for "+projectName+" with "+categoryName);
+    emits('openProjectCategory', projectName, categoryName);
+}
 </script>
   
 <!-- LOCAL STYLES -->

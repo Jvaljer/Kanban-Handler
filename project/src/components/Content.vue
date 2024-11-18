@@ -7,8 +7,17 @@
     <div class="content-container"
         :class="{ 'content-container-expanded': isExpanded }"
     >
-        <Dashboard v-if="!projectOpened" :todayDate="todayDate" :projects="allProjects"/>
-        <Project v-if="projectOpened" :project="openedProject" :defaultState="defaultState"/> <!-- Needs a precision on WHICH project is opened -->
+        <Dashboard v-if="!projectOpened" 
+            :todayDate="todayDate"
+            :projects="allProjects"
+            @openProjectCategory="openProject"
+        />
+        <Project v-if="projectOpened"
+            :project="openedProject"
+            :defaultState="defaultState"
+            :category="openedCategory"
+            :openedWithCategory="categoryOpened"
+        /> 
     </div>
 </template>
   
@@ -29,7 +38,13 @@ const props = defineProps({
     projectOpened: {
         type: Boolean
     },
+    categoryOpened: {
+        type: Boolean
+    },
     openedProject: {
+        type: Object
+    },
+    openedCategory: {
         type: Object
     },
     defaultState: {
@@ -41,6 +56,8 @@ const props = defineProps({
     }
 });
 
+const emits = defineEmits(['openProjectWithCategory']);
+
 const date = new Date();
 
 // turn into DD-MM-YYYY
@@ -50,6 +67,11 @@ const year = date.getFullYear();
 
 todayDate.value = ""+day+"-"+month+"-"+year;
 
+function openProject(projectName, categoryName)
+{
+    console.log("Content -> Received & Sending "+projectName+" with "+categoryName);
+    emits('openProjectWithCategory', projectName, categoryName);
+}
 </script>
   
 <!-- LOCAL STYLES -->

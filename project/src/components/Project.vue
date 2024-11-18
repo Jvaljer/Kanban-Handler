@@ -89,6 +89,13 @@ const props = defineProps({
     },
     defaultState: {
         type: String
+    },
+    category: {
+        type: Object
+    },
+    openedWithCategory: {
+        type: Boolean,
+        required: true
     }
 });
 
@@ -125,7 +132,6 @@ function openTaskDetails(task)
 
 function openItem(item, isTask)
 {
-    console.log("opening item: "+item.name+" that is a task ("+isTask+")");
     detailOpened.value = true;
     openedItem.value = item;
     openedItemIsTask.value = isTask;
@@ -156,6 +162,11 @@ onUnmounted(() => {
         scrollableBody.value.removeEventListener('wheel', handleWheelScroll);
     }
 });
+
+if (props.category && props.openedWithCategory)
+{
+    openCategoryDetails(props.category);
+}
 </script>
   
 <!-- LOCAL STYLES -->
