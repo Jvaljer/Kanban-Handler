@@ -15,15 +15,16 @@
             </div>
             <div class="dashboard-right">
                 <div class="dashboard-welcome-card">
-                    <span class="dashboard-welcome-card-title">
-                        Hello There !
+                    <span class="dashboard-welcome-card-title urbanist">
+                        Hello {{ username }} 👋
                     </span>
-                    <span class="dashboard-welcom-card-subtitle">
-                        nice to see you
+                    <span class="dashboard-welcome-card-subtitle urbanist">
+                        Welcome Back !
                     </span>
                 </div>
                 <div class="dashboard-most-productive">
                     <!-- TODO  -->
+                     aaaa
                 </div>
             </div>
         </div>  
@@ -44,6 +45,10 @@ const props = defineProps({
     projects: {
         type: Object,
         required: true
+    },
+    username: {
+        type: String,
+        required: true
     }
 });
 
@@ -61,7 +66,6 @@ const deadlineProjects = ref(getUpcomingDeadlinesProjects());
 function getUpcomingDeadlinesProjects()
 {
     // Project has an upcoming deadline when the deadline is 7 (or less) days far from today.
-    
     var result = new Map();;
     
     if (props.projects)
@@ -103,9 +107,6 @@ function getLastOpenedProject()
 
 function openProjectCategory(projectName, categoryName)
 {
-    console.log("Dashboard -> Received opening "+projectName+" with "+categoryName);
-
-    console.log("Dashboard -> Sending emit for "+projectName+" with "+categoryName);
     emits('openProjectCategory', projectName, categoryName);
 }
 </script>
@@ -127,5 +128,48 @@ function openProjectCategory(projectName, categoryName)
     border: solid 2px var(--main-beige-16);
     border-radius: 8px;
     background-color: var(--main-beige-08);
+}
+.dashboard-left {
+    flex-grow: 0.8;
+    padding: 24px 24px;
+    display: flex;
+    flex-direction: column;
+}
+.dashboard-right {
+    flex-grow: 0.2;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.dashboard-upcoming-deadlines {
+    display: flex;
+    flex-direction: row;
+
+    padding-bottom: 48px;
+    margin-right: 48px;
+    border-bottom: solid 2px var(--main-dark-brown-32);
+}
+
+.dashboard-welcome-card {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+.dashboard-welcome-card-title {
+    font-size: 48px;
+    font-weight: var(--urbanist-semibold);
+}
+.dashboard-welcome-card-subtitle {
+    font-size: 32px;
+}
+
+.dashboard-most-productive {
+    width: 100%;
+    flex-grow: 1;
+    border-left: solid 2px var(--main-dark-brown-32);
+
+    display: flex;
+    flex-direction: column;
+    
 }
 </style>

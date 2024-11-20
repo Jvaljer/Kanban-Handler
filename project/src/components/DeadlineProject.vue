@@ -57,7 +57,7 @@ function openProjectWithDetail(projectName, categoryName)
     flex-direction: column;
 
     border-radius: 16px;
-    border: solid 4px var(--main-beige-56);
+    border: solid 2px var(--main-beige-56);
     background-color: var(--main-light-beige);
     overflow: hidden;
 

@@ -3,7 +3,7 @@
     <Login @userConnect="onUserConnect" v-if="!isConnected"/>
 
     <Navbar v-if="isConnected" 
-      :username="username"
+      :username="user.username"
       :projects="projects"
       @toggleNavbar="resizeContent"
       @openProject="openProject"
@@ -18,6 +18,8 @@
       :openedCategory="openedCategory"
       :defaultState="defaultState"
       :allProjects="projects"
+      :userPseudo="user.username"
+      :userName="user.name"
       @openProjectWithCategory="openProjectWithCategory"
     />
 
@@ -33,16 +35,13 @@ import Content from './components/Content.vue';
 import { ref } from 'vue';
 
 import projectsData from '@/assets/database-json/projects.json';
-import loginsData from '@/assets/database-json/logins.json';
-import usersData from '@/assets/database-json/users.json';
 
 const projects = ref(projectsData.projects);
-const logins = ref(loginsData.logins);
-const usersInfos = ref(usersData.users);
 
 // Define a reactive variable to track connection status
 const isConnected = ref(false);
-const username = ref(''); // and the user's info
+const user = ref(); // and the user's info
+const username = ref('');
 const contentExpanded = ref(false);
 const projectIsOpened = ref(false);
 const categoryIsOpened = ref(false);
@@ -51,10 +50,12 @@ const openedCategory = ref();
 const defaultState = ref('');
 
 // Function triggered when userConnect event is emitted
-function onUserConnect(user) {
+function onUserConnect(userObject) {
     isConnected.value = true;
-    username.value = user;
-    projects.value = fetchProjectsInDatabase(user);
+    user.value = userObject;
+    username.value = userObject.name;
+    console.log("Connecting -"+userObject.name+"- as "+userObject);
+    projects.value = fetchProjectsInDatabase(userObject.username);
 }
 
 function fetchProjectsInDatabase(username)

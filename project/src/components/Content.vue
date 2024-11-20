@@ -10,6 +10,7 @@
         <Dashboard v-if="!projectOpened" 
             :todayDate="todayDate"
             :projects="allProjects"
+            :username="userName"
             @openProjectCategory="openProject"
         />
         <Project v-if="projectOpened"
@@ -52,6 +53,14 @@ const props = defineProps({
     },
     allProjects: {
         type: Array,
+        required: true
+    },
+    userPseudo: {
+        type: String,
+        required: true
+    },
+    userName: {
+        type: String,
         required: true
     }
 });

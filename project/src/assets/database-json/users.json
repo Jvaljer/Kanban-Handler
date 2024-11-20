@@ -2,15 +2,21 @@
     "users": [
         {
             "username": "ahenry",
+            "name": "Abel",
+            "surname": "Henry",
             "projects": [
                 "My Project"
-            ]
+            ],
+            "lastLogin": ""
         },
         {
             "username": "abelo",
+            "name": "Abelo",
+            "surname": "--",
             "projects": [
                 "My Project"
-            ]
+            ],
+            "lastLogin": ""
         }
     ]
 }

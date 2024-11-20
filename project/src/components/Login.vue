@@ -44,6 +44,12 @@ import { ref, defineEmits } from 'vue';
 import eyeOpenIcon from '@/assets/icons/eye-open.png';
 import eyeCloseIcon from '@/assets/icons/eye-close.png';
 
+import loginsData from '@/assets/database-json/logins.json';
+import usersData from '@/assets/database-json/users.json';
+
+const logins = ref(loginsData.logins);
+const usersInfos = ref(usersData.users);
+
 // Emit function setup
 const emit = defineEmits(['userConnect']);
 
@@ -59,7 +65,28 @@ const showPassword = ref(false);
 
 function checkUserInfos(username, password)
 {
-    return (username=="ahenry" && password=="azerty1234");
+    for (const login of logins.value)
+    {
+        console.log("Comparing: {"+login.username+","+login.password+"} with {"+username+","+password+"}")
+        if (login.username===username && login.password===password)
+        {
+            console.log("User shall Connect !");
+            return true;
+        }
+    }
+    return false;
+}
+
+function findUserInDatabase(username)
+{
+    for (const user of usersInfos.value)
+    {
+        if (user.username===username)
+        {
+            return user;
+        }
+    }
+    return "ERR_USER_NOT_FOUND";
 }
 
 function tryLogin()
@@ -71,7 +98,7 @@ function tryLogin()
         toastColor.value = "green"; // success toast color
         loginFailed.value = false;
 
-        emit('userConnect', username.value);
+        emit('userConnect', findUserInDatabase(username.value));
     }
     else
     {
@@ -141,6 +168,15 @@ function showForgotPassword()
     opacity: 0.64;
     text-align: right;
     font-size: 20px;
+}
+.login-content-link:hover {
+    color: var(--main-dark-brown-64);
+    opacity: 1;
+    text-decoration: underline;
+}
+.login-content-link:active {
+    opacity: 0.8;
+    text-decoration: none;
 }
 .login-field-input {
     background-color: var(--main-light-beige-32);
