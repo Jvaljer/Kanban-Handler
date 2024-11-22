@@ -38,8 +38,12 @@
                     :defaultState="defaultState"
                     :detailsOpened="detailOpened"
                     :openedItem="openedItem"
+                    :movingTask="pickedTask"
                     @openTask="openTaskDetails"
                     @openCategory="openCategoryDetails"
+                    @pickTask="pickTask"
+                    @dropTask="dropTask"
+                    @currentCategoryHolder="enteringCategory"
                     v-show="showCategory(category)"
                 />
 
@@ -79,6 +83,9 @@ import ProjectDetails from './ProjectDetails.vue';
 const detailOpened = ref(false);
 const openedItem = ref();
 const openedItemIsTask = ref(false);
+
+const pickedTask = ref(null);
+const holderCategory = ref(null);
 
 const scrollableBody = ref(null);
 
@@ -151,6 +158,21 @@ function handleWheelScroll(event) {
     }
 }
 
+// Task Drag and Drop emits handling
+function pickTask(task, categoryName)
+{
+    // TODO
+}
+function dropTask()
+{
+    // TODO
+}
+function enteringCategory()
+{
+    // TODO
+}
+
+// Calculation at the start of the component
 onMounted(() => {
     if (scrollableBody.value) {
         scrollableBody.value.addEventListener('wheel', handleWheelScroll, { passive: false });

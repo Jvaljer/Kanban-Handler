@@ -1,8 +1,8 @@
 <template>
-    <!-- TODO -->
      <div class="project-item hover-pointer"
         :style="{ backgroundColor: srcCategory.color }"
         @click.stop="openCategoryDetails(srcCategory)"
+        @dragenter="enterCategory(srcCategory.name)"
      >
 
         <div class="project-item-header">
@@ -17,11 +17,10 @@
                 class="project-task"
                 :class="{ 'notOpenedTask': taskIsNotOpened(task.name) && detailsOpened }"
                 draggable="true"
-                @dragstart="pickTaskItem($event, srcCategory.name, task.name)"
-                @dragover.prevent
-                @drop="dropTaskItem($event, srcCategory.name, task.name)"
                 @click.stop="openTaskDetails(task)"
-            >
+                @dragstart="pickTaskItem(task)"
+                @dragend="dropTaskItem(task)"
+            > <!-- @dragend="onDragEnd" -->
                 <div class="task-header">
                     <span class="task-name">{{ task.name }}</span>
                     <div class="task-priority"
@@ -48,7 +47,7 @@
   
 <!-- LOCAL SCRIPT -->
 <script setup>
-const emits = defineEmits(['openCategory','openTask']);
+const emits = defineEmits(['openCategory','openTask', 'pickTask', 'dropTask', 'currentCategoryHolder']);
 
 const props = defineProps({
     srcCategory: {
@@ -68,6 +67,12 @@ const props = defineProps({
     },
     openedItem: {
         type: Object
+    },
+    movingTask: {
+        type: Object
+    },
+    isHoldingTask: {
+        type: Boolean
     }
 });
 
@@ -139,14 +144,24 @@ function taskIsNotOpened(taskName)
     return true;
 }
 
-function pickTaskItem(event, sourceCategoryName, pickedTaskName)
+// Drag event handlers
+function pickTaskItem(task)
 {
-    // TODO
+    //handle this with emits ??
+    console.log(`picking the task ${task.name} from category ${task.category}`);
+    emits('pickTask', task, task.category);
+}
+function dropTaskItem(task)
+{
+    //handle this with emits ??
+    console.log(`dropping the task ${task.name} from category ${task.category}`);
+    emits('dropTask'); //nothing to pass (as task was saved in a tmp var)
 }
 
-function dropTaskItem(event, sourceCategoryName, pickedTaskName)
+function enterCategory()
 {
-    // TODO
+    console.log(`entering ${props.srcCategory.name}`);
+    emits('currentCategoryHolder', props.srcCategory.name);
 }
 </script>
   
