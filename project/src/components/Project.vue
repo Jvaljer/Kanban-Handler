@@ -85,7 +85,7 @@ const openedItem = ref();
 const openedItemIsTask = ref(false);
 
 const pickedTask = ref(null);
-const holderCategory = ref(null);
+const holderCategoryName = ref(null);
 
 const scrollableBody = ref(null);
 
@@ -159,17 +159,26 @@ function handleWheelScroll(event) {
 }
 
 // Task Drag and Drop emits handling
-function pickTask(task, categoryName)
+function pickTask(task)
 {
-    // TODO
+    pickedTask.value = task;
 }
 function dropTask()
 {
-    // TODO
+    // first we figure which category is holding the task
+    for (const category of props.project.categories)
+    {
+        if (category.name === holderCategoryName.value)
+        {
+            pickedTask.value.category = category.name;
+            pickedTask.value = null;
+        }
+    }
+
 }
-function enteringCategory()
+function enteringCategory(categoryName)
 {
-    // TODO
+    holderCategoryName.value = categoryName;
 }
 
 // Calculation at the start of the component

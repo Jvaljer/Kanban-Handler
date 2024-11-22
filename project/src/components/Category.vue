@@ -147,20 +147,15 @@ function taskIsNotOpened(taskName)
 // Drag event handlers
 function pickTaskItem(task)
 {
-    //handle this with emits ??
-    console.log(`picking the task ${task.name} from category ${task.category}`);
-    emits('pickTask', task, task.category);
+    emits('pickTask', task);
 }
 function dropTaskItem(task)
 {
-    //handle this with emits ??
-    console.log(`dropping the task ${task.name} from category ${task.category}`);
     emits('dropTask'); //nothing to pass (as task was saved in a tmp var)
 }
 
 function enterCategory()
 {
-    console.log(`entering ${props.srcCategory.name}`);
     emits('currentCategoryHolder', props.srcCategory.name);
 }
 </script>
