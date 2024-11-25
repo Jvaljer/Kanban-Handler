@@ -37,9 +37,21 @@
                 <div
                     v-if="taskStateClicked(task)"
                     class="task-modal-state"
-                    :style="{ bottom: modalPosition.bottom + 'px', left: modalPosition.left + 'px' }"
                 >
-                    <span class="task-modal-state-title">Change the value of your state !</span>
+                    <span class="task-modal-state-title">
+                        Switch state:
+                    </span>
+                    <div class="modal-state-list">
+                        <div v-for="state of project.states"
+                            class="modal-state-item"
+                            :style="{ backgroundColor: state.color }"
+                            @click.stop="updateTaskState(task, state)"
+                        >
+                            <span>
+                                {{  state.name }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,9 +67,7 @@
   
 <!-- LOCAL SCRIPT -->
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-
-const modalPosition = ref({ bottom: 0, left: 0 });
+import { onMounted, onUnmounted } from 'vue';
 
 const emits = defineEmits(['openCategory','openTask', 'pickTask', 'dropTask', 'currentCategoryHolder']);
 
@@ -141,11 +151,13 @@ function addTaskForCategory(categoryName)
 
 function openCategoryDetails(category)
 {
+    closeActiveModal();
     emits('openCategory', category);
 }
 
 function openTaskDetails(task)
 {
+    closeActiveModal();
     emits('openTask', task);
 }
 
@@ -178,12 +190,20 @@ function openStateModal(task)
 {
     emits('updateModalTask', task);
 }
-
 function taskStateClicked(task)
 {
     return props.activeModalTask && props.activeModalTask.name === task.name;
 }
+function closeActiveModal()
+{
+    emits('updateModalTask', null);
+}
 
+function updateTaskState(task, state)
+{
+    task.state = state.name;
+    closeActiveModal();
+}
 // Handling global click detection (to close modal)
 function clickOutModal(event)
 {
@@ -328,8 +348,10 @@ onUnmounted( () => {
 .task-state {
     display: flex;
     justify-content: center;
+
     border: solid 2px transparent;
     border-radius: 16px;
+
     padding: 2px 16px;
     width: fit-content;
 }
@@ -352,16 +374,57 @@ onUnmounted( () => {
 
 .task-modal-state {
     position: absolute;
+    bottom: -160px; /* should have something dynamic here ...*/
     z-index: 5;
-    width: fit-content;
+
+    width: calc( 100% - 32px);
     height: fit-content;
 
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    background-color: var(--main-light-beige);
+    padding: 8px 8px 12px 8px;
+    color: var(--main-dark-brown);
+    font-size: 20px;
+
+    border: solid 2px var(--main-brown-32);
+    border-radius: 8px;
+}
+
+.modal-state-list {
+    display: flex;
+    flex-direction: column;
+
+    width: 80%;
+
     justify-content: center;
     align-items: center;
 
-    background-color: whitesmoke;
-    color: black;
-    font-size: 24px;
+    gap: 8px;
+}
+.modal-state-item {
+    color: var(--main-dark-brown);
+    width: 100%;
+    font-size: 16px;
+
+    display: flex;
+    justify-content: center;
+    padding: 2px 0;
+
+    border: solid 2px transparent;
+    border-radius: 16px;
+}
+.modal-state-item:hover {
+    border-color: var(--main-dark-brown-32);
+}
+.modal-state-item:active {
+    transform: scale(0.9);
+}
+.active-modal-state {
+    border-color: var(--main-dark-brown);
 }
 </style>
