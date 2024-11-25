@@ -54,7 +54,6 @@ function onUserConnect(userObject) {
     isConnected.value = true;
     user.value = userObject;
     username.value = userObject.name;
-    console.log("Connecting -"+userObject.name+"- as "+userObject);
     projects.value = fetchProjectsInDatabase(userObject.username);
 }
 
@@ -126,7 +125,6 @@ function openProject(projectName)
 }
 function openProjectWithCategory(projectName, categoryName)
 {
-  console.log("App -> Received the emit for "+projectName+" with "+categoryName);
   projectIsOpened.value = true;
   categoryIsOpened.value = true;
   openedProject.value = searchProjectByName(projectName);

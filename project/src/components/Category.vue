@@ -20,7 +20,7 @@
                 @click.stop="openTaskDetails(task)"
                 @dragstart="pickTaskItem(task)"
                 @dragend="dropTaskItem(task)"
-            > <!-- @dragend="onDragEnd" -->
+            >
                 <div class="task-header">
                     <span class="task-name">{{ task.name }}</span>
                     <div class="task-priority"
@@ -28,10 +28,18 @@
                     ></div>
                 </div>
                 <span class="task-description" >{{  task.description }}</span>
-                <div class="task-state"
+                <button class="task-state"
                     :style="{ backgroundColor: getStateColorFromTask(task) }"
+                    @click.stop="openStateModal(task)"
                 >
                     {{ task.state }}
+                </button>
+                <div
+                    v-if="taskStateClicked(task)"
+                    class="task-modal-state"
+                    :style="{ bottom: modalPosition.bottom + 'px', left: modalPosition.left + 'px' }"
+                >
+                    <span class="task-modal-state-title">Change the value of your state !</span>
                 </div>
             </div>
         </div>
@@ -47,6 +55,10 @@
   
 <!-- LOCAL SCRIPT -->
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const modalPosition = ref({ bottom: 0, left: 0 });
+
 const emits = defineEmits(['openCategory','openTask', 'pickTask', 'dropTask', 'currentCategoryHolder']);
 
 const props = defineProps({
@@ -73,6 +85,9 @@ const props = defineProps({
     },
     isHoldingTask: {
         type: Boolean
+    },
+    activeModalTask: {
+        type: Object
     }
 });
 
@@ -138,7 +153,6 @@ function taskIsNotOpened(taskName)
 {
     if (props.openedItem)
     {
-        console.log("task '"+taskName+"' is '"+props.openedItem.name+"'");
         return !(taskName === props.openedItem.name);
     }
     return true;
@@ -158,6 +172,31 @@ function enterCategory()
 {
     emits('currentCategoryHolder', props.srcCategory.name);
 }
+
+// State switching handlers
+function openStateModal(task)
+{
+    emits('updateModalTask', task);
+}
+
+function taskStateClicked(task)
+{
+    return props.activeModalTask && props.activeModalTask.name === task.name;
+}
+
+// Handling global click detection (to close modal)
+function clickOutModal(event)
+{
+    if (!event.target.closest('.task-modal-state'))
+        emits('updateModalTask', null);
+}
+
+onMounted( () => {
+    window.addEventListener('click', clickOutModal);
+})
+onUnmounted( () => {
+    window.removeEventListener('click', clickOutModal);
+})
 </script>
   
 <!-- LOCAL STYLES -->
@@ -246,6 +285,7 @@ function enterCategory()
 
 /* TASKS STYLE */
 .project-task {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -288,9 +328,16 @@ function enterCategory()
 .task-state {
     display: flex;
     justify-content: center;
+    border: solid 2px transparent;
     border-radius: 16px;
     padding: 2px 16px;
     width: fit-content;
+}
+.task-state:hover {
+    border: solid 2px var(--main-dark-brown-16);
+}
+.task-state:active {
+    border: solid 2px var(--main-dark-brown);
 }
 .task-priority {
     width: 12px;
@@ -301,5 +348,20 @@ function enterCategory()
 
 .notOpenedTask {
     opacity: 0.32;
+}
+
+.task-modal-state {
+    position: absolute;
+    z-index: 5;
+    width: fit-content;
+    height: fit-content;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: whitesmoke;
+    color: black;
+    font-size: 24px;
 }
 </style>

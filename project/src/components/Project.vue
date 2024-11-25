@@ -39,6 +39,8 @@
                     :detailsOpened="detailOpened"
                     :openedItem="openedItem"
                     :movingTask="pickedTask"
+                    :activeModalTask="activeModalTask"
+                    @updateModalTask="updateModalTask"
                     @openTask="openTaskDetails"
                     @openCategory="openCategoryDetails"
                     @pickTask="pickTask"
@@ -86,6 +88,7 @@ const openedItemIsTask = ref(false);
 
 const pickedTask = ref(null);
 const holderCategoryName = ref(null);
+const activeModalTask = ref(null);
 
 const scrollableBody = ref(null);
 
@@ -179,6 +182,11 @@ function dropTask()
 function enteringCategory(categoryName)
 {
     holderCategoryName.value = categoryName;
+}
+
+function updateModalTask(task)
+{
+    activeModalTask.value = task
 }
 
 // Calculation at the start of the component

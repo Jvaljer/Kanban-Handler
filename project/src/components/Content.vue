@@ -78,7 +78,6 @@ todayDate.value = ""+day+"-"+month+"-"+year;
 
 function openProject(projectName, categoryName)
 {
-    console.log("Content -> Received & Sending "+projectName+" with "+categoryName);
     emits('openProjectWithCategory', projectName, categoryName);
 }
 </script>

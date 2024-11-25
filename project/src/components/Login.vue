@@ -67,10 +67,8 @@ function checkUserInfos(username, password)
 {
     for (const login of logins.value)
     {
-        console.log("Comparing: {"+login.username+","+login.password+"} with {"+username+","+password+"}")
         if (login.username===username && login.password===password)
         {
-            console.log("User shall Connect !");
             return true;
         }
     }

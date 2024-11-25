@@ -45,7 +45,6 @@ const emits = defineEmits(['openProjectCategory']);
 
 function openProjectWithDetail(projectName, categoryName)
 {
-    console.log("Deadline -> Opening "+projectName+" with category "+categoryName);
     emits('openProjectCategory', projectName, categoryName);
 }
 </script>
