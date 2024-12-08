@@ -55,9 +55,30 @@ function onUserConnect(userObject) {
     user.value = userObject;
     username.value = userObject.name;
     projects.value = fetchProjectsInDatabase(userObject.username);
+
+    console.log(`projects fetched: ${JSON.stringify(projects.value)}`);
 }
 
-function fetchProjectsInDatabase(username)
+async function fetchProjectsInDatabase(username)
+{
+  try
+  {
+    const response = await fetch(`http://localhost:3000/projects?username=${username}`);
+    if (!response.ok) throw new Error('Failed to fetch projects');
+
+    const data = await response.json();
+    projects.value = data.projects;
+
+    return projects.value;
+  } 
+  catch (err)
+  {
+    console.error(`Error fetching projects: ${err}`);
+    return [];
+  }
+}
+
+function fetchProjectsInJsonDatabase(username)
 {
   // If many projects, should be better to retrieve the list of user's project and then grab it from DB
   var projectList = [];
