@@ -27,3 +27,9 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Running with DB
+```sh
+node src/server.cjs
+npm run dev
+```

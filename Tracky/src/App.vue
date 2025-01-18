@@ -36,7 +36,8 @@ import { ref } from 'vue';
 
 import projectsData from '@/assets/database-json/projects.json';
 
-const projects = ref(projectsData.projects);
+// const projects = ref(projectsData.projects);
+const projects = ref(null);
 
 // Define a reactive variable to track connection status
 const isConnected = ref(false);
@@ -50,25 +51,33 @@ const openedCategory = ref();
 const defaultState = ref('');
 
 // Function triggered when userConnect event is emitted
-function onUserConnect(userObject) {
-    isConnected.value = true;
-    user.value = userObject;
-    username.value = userObject.name;
-    projects.value = fetchProjectsInDatabase(userObject.username);
+async function onUserConnect(userObject) {
+  console.log("onUserConnect ...");
+  user.value = userObject;
+  username.value = userObject.name;
 
-    console.log(`projects fetched: ${JSON.stringify(projects.value)}`);
+  console.log("... fetchProjectsInDatabase ...");
+  projects.value = await fetchProjectsInDatabase(userObject.username);
+
+  isConnected.value = true;
+
+  console.log(`projects fetched: ${JSON.stringify(projects.value)}`);
 }
 
 async function fetchProjectsInDatabase(username)
 {
+  console.log("fetchProjectsInDatabase ...");
   try
   {
     const response = await fetch(`http://localhost:3000/projects?username=${username}`);
     if (!response.ok) throw new Error('Failed to fetch projects');
+    console.log("... response.ok ...");
 
     const data = await response.json();
-    projects.value = data.projects;
 
+    console.log("... response.json() ...");
+
+    projects.value = data.projects;
     return projects.value;
   } 
   catch (err)

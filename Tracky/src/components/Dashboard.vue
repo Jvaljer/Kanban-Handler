@@ -24,7 +24,6 @@
                 </div>
                 <div class="dashboard-most-productive">
                     <!-- TODO  -->
-                     aaaa
                 </div>
             </div>
         </div>  
@@ -66,7 +65,7 @@ const deadlineProjects = ref(getUpcomingDeadlinesProjects());
 function getUpcomingDeadlinesProjects()
 {
     // Project has an upcoming deadline when the deadline is 7 (or less) days far from today.
-    var result = new Map();;
+    var result = new Map();
     
     if (props.projects)
     {

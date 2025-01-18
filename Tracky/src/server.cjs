@@ -15,22 +15,20 @@ const db = new sqlite3.Database('../../kanban.db', (err) => {
 });
 
 app.get('/projects', (req, res) => {
-    const { username } = req.query;
+    const username = req.query.username; // extract actual username value
 
     const sql = `
-        SELECT projects.*
+        SELECT *
         FROM projects
-        JOIN users ON users.username = projects.creator
-        WHERE users.username = ?;
-    `;
+        WHERE projects.creator = '${username}';
+    `; // bold but still works tho
 
-    db.all(sql, [username], (err, rows) => {
-        if (err)
-        {
-            res.status(500).json({ error: err.message });
-            return;
+    db.all(sql, (err, rows) => {
+        if (err) console.error("!!! ", err.message);
+        else {
+            console.log("fetched: ", rows[0].name);
+            res.json({ projects: rows }); // 'projects' because fetching as 'data.projects'.
         }
-        res.json({ projects: rows });
     });
 });
 
