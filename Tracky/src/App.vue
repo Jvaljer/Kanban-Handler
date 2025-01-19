@@ -18,6 +18,8 @@
       :openedCategory="openedCategory"
       :defaultState="defaultState"
       :allProjects="projects"
+      :allCategories="categories"
+      :allStates="states"
       :userPseudo="user.username"
       :userName="user.name"
       @openProjectWithCategory="openProjectWithCategory"
@@ -38,6 +40,8 @@ import projectsData from '@/assets/database-json/projects.json';
 
 // const projects = ref(projectsData.projects);
 const projects = ref(null);
+const categories = ref(null);
+const states = ref(null);
 
 // Define a reactive variable to track connection status
 const isConnected = ref(false);
@@ -52,33 +56,72 @@ const defaultState = ref('');
 
 // Function triggered when userConnect event is emitted
 async function onUserConnect(userObject) {
-  console.log("onUserConnect ...");
   user.value = userObject;
   username.value = userObject.name;
 
-  console.log("... fetchProjectsInDatabase ...");
   projects.value = await fetchProjectsInDatabase(userObject.username);
+  console.log(`projects fetched: ${JSON.stringify(projects.value)}`);
+
+  categories.value = await fetchCategoriesForProjects(projects.value);
+  console.log(`categories fetched: ${JSON.stringify(categories.value)}`);
+
+  states.value = await fetchStatesForProject(projects.value);
+  console.log(`states fetched: ${JSON.stringify(states.value)}`);
 
   isConnected.value = true;
+  // !!! HERE !!!
+  /*
+    Yet projects.value simply looks like:
+    [{
+      id, name, description, kanbanView, creationDate, deadline, creator, lastOpen
+    }
+    ...
+    ]
 
-  console.log(`projects fetched: ${JSON.stringify(projects.value)}`);
+    And now I need to get the states & categories for each project ...
+
+    2 options:
+    * (RECOMMENDED) fetch the related states & categories and store them as projectStates & projectCategories
+      - this means having to pass all 3 each time
+      - more straightforward, less data mixing
+    * (X) fetch all project related informations and then create a json object mixing all of them
+      - keeps current architecture
+      - data mixing isn't good ?
+  */
 }
 
 async function fetchProjectsInDatabase(username)
 {
-  console.log("fetchProjectsInDatabase ...");
   try
   {
     const response = await fetch(`http://localhost:3000/projects?username=${username}`);
     if (!response.ok) throw new Error('Failed to fetch projects');
-    console.log("... response.ok ...");
 
     const data = await response.json();
 
-    console.log("... response.json() ...");
+    // projects.value = data.projects;
+    return data.projects;
+  } 
+  catch (err)
+  {
+    console.error(`Error fetching projects: ${err}`);
+    return [];
+  }
+}
 
-    projects.value = data.projects;
-    return projects.value;
+async function fetchCategoriesForProjects(projectList)
+{
+  try
+  {
+    // first retrieve all ids
+    const idList = projectList.map(p => p.id);
+    const response = await fetch(`http://localhost:3000/categories?projects=${idList}`);
+    if (!response.ok) throw new Error('Failed to fetch categories');
+
+    const data = await response.json();
+
+    // categories.value = data.categories;
+    return data.categories;
   } 
   catch (err)
   {

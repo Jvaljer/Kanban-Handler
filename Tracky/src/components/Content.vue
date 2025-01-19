@@ -55,6 +55,14 @@ const props = defineProps({
         type: Array,
         required: true
     },
+    allCategories: {
+        type: Array,
+        required: true
+    },
+    allStates: {
+        type: Array,
+        required: true
+    },
     userPseudo: {
         type: String,
         required: true

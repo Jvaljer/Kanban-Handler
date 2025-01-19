@@ -9,9 +9,20 @@ const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const db = new sqlite3.Database('../../kanban.db', (err) => {
+const db = new sqlite3.Database('./kanban.db', (err) => {
     if (err) console.error('Error connecting to DB: ', err.message);
-    else console.log('Connected to SQLite DB !');
+    else
+    {
+        console.log('Connected to SQLite DB !');
+
+        // const sql = "SELECT * FROM sqlite_master WHERE type='table';";
+        // db.all(sql, (err, rows) => {
+        //     if (err) console.error("!!! ", err.message);
+        //     else {
+        //         console.log("tables > \n", rows);
+        //     }
+        // });
+    }
 });
 
 app.get('/projects', (req, res) => {
@@ -26,10 +37,41 @@ app.get('/projects', (req, res) => {
     db.all(sql, (err, rows) => {
         if (err) console.error("!!! ", err.message);
         else {
-            console.log("fetched: ", rows[0].name);
+            console.log("fetched (projects): ", rows.map(r => r.name));
             res.json({ projects: rows }); // 'projects' because fetching as 'data.projects'.
         }
     });
+});
+
+app.get('/categories', async (req, res) => {
+    const idList = req.query.projects;
+    console.log("Searching for ids -> ", idList);
+
+    let categoryList = [];
+    for (let id of idList)
+    {
+        const categories = await new Promise((resolve, reject) => {
+            const sql = `
+                SELECT *
+                FROM categories
+                WHERE categories.project_id = ${id};
+            `;
+
+            db.all(sql, (err, rows) => {
+                if (err) reject(err); // rejecting promise on error
+                else 
+                {
+                    console.log("fetched (categories): ", rows.map(r => r.name), " ...");
+                    resolve(rows);
+                }
+            });
+        });
+        // adding fetched categories
+        categoryList.push(...categories);
+        console.log("DONE WITH ",id);
+    }
+    console.log("##### returning categories - \n",categoryList,"\n#####");
+    res.json({ categories: categoryList });
 });
 
 process.on('SIGINT', () => {
