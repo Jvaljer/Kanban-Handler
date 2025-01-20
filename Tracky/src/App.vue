@@ -130,6 +130,27 @@ async function fetchCategoriesForProjects(projectList)
   }
 }
 
+async function fetchStatesForProject(projectList)
+{
+  try
+  {
+    // first retrieve all ids
+    const idList = projectList.map(p => p.id);
+    const response = await fetch(`http://localhost:3000/states?projects=${idList}`);
+    if (!response.ok) throw new Error('Failed to fetch states');
+
+    const data = await response.json();
+
+    // categories.value = data.categories;
+    return data.states;
+  } 
+  catch (err)
+  {
+    console.error(`Error fetching projects: ${err}`);
+    return [];
+  }
+}
+
 function fetchProjectsInJsonDatabase(username)
 {
   // If many projects, should be better to retrieve the list of user's project and then grab it from DB

@@ -10,6 +10,7 @@
         <Dashboard v-if="!projectOpened" 
             :todayDate="todayDate"
             :projects="allProjects"
+            :categories="allCategories"
             :username="userName"
             @openProjectCategory="openProject"
         />

@@ -37,7 +37,7 @@ app.get('/projects', (req, res) => {
     db.all(sql, (err, rows) => {
         if (err) console.error("!!! ", err.message);
         else {
-            console.log("fetched (projects): ", rows.map(r => r.name));
+            console.log("SQL - Server returns: (projects)", rows.map(r => r.name));
             res.json({ projects: rows }); // 'projects' because fetching as 'data.projects'.
         }
     });
@@ -45,7 +45,6 @@ app.get('/projects', (req, res) => {
 
 app.get('/categories', async (req, res) => {
     const idList = req.query.projects;
-    console.log("Searching for ids -> ", idList);
 
     let categoryList = [];
     for (let id of idList)
@@ -59,19 +58,40 @@ app.get('/categories', async (req, res) => {
 
             db.all(sql, (err, rows) => {
                 if (err) reject(err); // rejecting promise on error
-                else 
-                {
-                    console.log("fetched (categories): ", rows.map(r => r.name), " ...");
-                    resolve(rows);
-                }
+                else resolve(rows);
             });
         });
         // adding fetched categories
         categoryList.push(...categories);
-        console.log("DONE WITH ",id);
     }
-    console.log("##### returning categories - \n",categoryList,"\n#####");
+    console.log("SQL - Server returns: (categories)", categoryList.map(c => c.name));
     res.json({ categories: categoryList });
+});
+
+
+app.get('/states', async (req, res) => {
+    const idList = req.query.projects;
+
+    let stateList = [];
+    for (let id of idList)
+    {
+        const states = await new Promise((resolve, reject) => {
+            const sql = `
+                SELECT *
+                FROM states
+                WHERE states.project_id = ${id};
+            `;
+
+            db.all(sql, (err, rows) => {
+                if (err) reject(err); // rejecting promise on error
+                else resolve(rows);
+            });
+        });
+        // adding fetched categories
+        stateList.push(...states);
+    }
+    console.log("SQL - Server returns: (state)", stateList.map(s => s.name));
+    res.json({ states: stateList });
 });
 
 process.on('SIGINT', () => {

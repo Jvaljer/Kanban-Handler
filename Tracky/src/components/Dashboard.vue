@@ -9,8 +9,9 @@
                         :deadlineCount="deadlineProjects.get(projectName)[1]"
                         @openProjectCategory="openProjectCategory"
                     /> -->
-                    <ProjectSummary v-for="projectName of sortedProjects.keys()"
-                        :project="sortedProjects.get(projectName)[0]"
+                    <ProjectSummary v-for="project of sortedProjects"
+                        :project="project"
+                        :categories="categories"
                         @openProjectCategory="openProjectCategory"
                     />
                 </div>
@@ -29,6 +30,7 @@
                 </div>
                 <div class="dashboard-most-productive">
                     <!-- TODO  -->
+                     TODO
                 </div>
             </div>
         </div>  
@@ -39,7 +41,8 @@
 <!-- LOCAL SCRIPT -->
 <script setup>
 import { ref } from 'vue';
-import DeadlineProject from './DeadlineProject.vue';
+// import DeadlineProject from './DeadlineProject.vue';
+import ProjectSummary from './ProjectSummary.vue';
 
 const props = defineProps({
     todayDate: {
@@ -47,7 +50,11 @@ const props = defineProps({
         required: true
     },
     projects: {
-        type: Object,
+        type: Array,
+        required: true
+    },
+    categories: {
+        type: Array,
         required: true
     },
     username: {
@@ -58,48 +65,24 @@ const props = defineProps({
 
 const emits = defineEmits(['openProjectCategory']);
 
-// Here we wanna calculate a bunch of stuff:
-/*
- - The projects that have an upcoming deadline
- - The latest opened project (or the most productive ??)
-    + Data to make the graph ...
-*/
+const sortedProjects = ref(getSortedProjects());
+console.log("sorted projects - ",sortedProjects.value);
 
-const deadlineProjects = ref(getUpcomingDeadlinesProjects());
-
-function getUpcomingDeadlinesProjects()
+function getSortedProjects()
 {
-    // Project has an upcoming deadline when the deadline is 7 (or less) days far from today.
-    var result = new Map();
-    
-    if (props.projects)
-    {
-        for (const project of props.projects)
-        {
-            const deadlineDate = project.deadline;
-            if (deadlineDate != "none")
-            {
-                const [dayNow, monthNow, yearNow] = props.todayDate.split("-");
-                const [dayEnd, monthEnd, yearEnd] = deadlineDate.split("-");
-                // Month is 0-indexed BUT NOT IN DATE NOW !!
-                const dateNow = new Date(yearNow, monthNow, dayNow); 
-                const dateEnd = new Date(yearEnd, monthEnd - 1, dayEnd);
+    if (!props.projects) return [];
 
-                // Difference in milliseconds
-                const dateDiffMs = Math.abs(dateEnd - dateNow);
+    const sorted = props.projects.slice().sort((p1,p2) => {
+        const [d1, m1, y1] = p1.lastOpen.split("-");
+        const date1 = new Date(`${y1}-${m1}-${d1}`);
 
-                // Convert milliseconds to days
-                const dateDiffDays = dateDiffMs / (1000 * 60 * 60 * 24);
+        const [d2, m2, y2] = p2.lastOpen.split("-");
+        const date2 = new Date(`${y2}-${m2}-${d2}`);
 
-                if (dateDiffDays <= 7)
-                {                    
-                    result.set(""+project.name, [project, dateDiffDays]);
-                }
-            }
-        }
-        
-        return result;
-    }
+        return date2 - date1;
+    });
+
+    return sorted;
 }
 
 function getLastOpenedProject()

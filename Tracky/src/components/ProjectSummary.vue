@@ -23,7 +23,7 @@ const propos = defineProps({
         required: true
     },
     categories: {
-        type: Object,
+        type: Array,
         required: true
     }
 })
