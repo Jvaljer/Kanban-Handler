@@ -7,12 +7,12 @@
 
         <div class="project-item-header">
             <span class="project-header-category-name">{{ srcCategory.name }}</span>
-            <span class="project-header-tasks-amount">{{ getCategoryTasksCount(srcCategory.name) }} tasks</span>
+            <span class="project-header-tasks-amount">{{ (tasks.length===undefined ? "0" : tasks.length) }} tasks</span>
         </div>
 
         <div class="project-item-body">
             <!-- Put Tasks in another Component ? -->
-            <div v-for="task in getCategoryTasks(srcCategory.name)"
+            <div v-for="task in tasks"
                 :key="task.name"
                 class="project-task"
                 :class="{ 'notOpenedTask': taskIsNotOpened(task.name) && detailsOpened }"
@@ -24,7 +24,7 @@
                 <div class="task-header">
                     <span class="task-name">{{ task.name }}</span>
                     <div class="task-priority"
-                        :style="{ backgroundColor: getPriorityColorFromTask(task) }"
+                        :style="{ backgroundColor: getPriorityColorFromTask(task.priority) }"
                     ></div>
                 </div>
                 <span class="task-description" >{{  task.description }}</span>
@@ -67,7 +67,7 @@
   
 <!-- LOCAL SCRIPT -->
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const emits = defineEmits(['openCategory','openTask', 'pickTask', 'dropTask', 'currentCategoryHolder']);
 
@@ -78,6 +78,10 @@ const props = defineProps({
     },
     project: {
         type: Object,
+        required: true
+    },
+    states: {
+        type: Array,
         required: true
     },
     defaultState: {
@@ -101,26 +105,32 @@ const props = defineProps({
     }
 });
 
-function getCategoryTasksCount(categoryName)
+const tasks = ref([]);
+
+async function fetchTasksForCategory(categoryId)
 {
-    return props.project.tasks.filter(task => task.category === categoryName).length;
+    // todo
+    const response = await fetch(`http://localhost:3000/tasks?category=${categoryId}`);
+    if (!response.ok) throw new Error('Failed to fetch projects');
+
+    const data = await response.json();
+    console.log("fetched tasks -> "+data.tasks);
+
+    return data.tasks;
 }
 
-function getCategoryTasks(categoryName)
+function getStateColorFromTask(task) // UNUSED NOW, NEED TO CHECK HOW TO FETCH !!!
 {
-    return props.project.tasks.filter(task => task.category === categoryName);
-}
-
-function getStateColorFromTask(task)
-{
+    // HERE
     const taskState = task.state;
-    return props.project.states.filter(state => state.name === taskState)[0].color;
+    // return props.project.states.filter(state => state.name === taskState)[0].color;
+    return props.states.filter(s => s.name === taskState)[0].color;
 }
 
-function getPriorityColorFromTask(task)
+function getPriorityColorFromTask(priority)
 {
     var resultColor = '';
-    switch (task.priority)
+    switch (priority)
     {
         case 'Low':
             resultColor = "var(--item-bright-yellow)";
@@ -146,6 +156,10 @@ function addTaskForCategory(categoryName)
         priority: "Low"
     }
 
+    // HERE
+    // modify this in 2 ways: 
+    // - correctly target tge tasks reference
+    // - add it to the database ...
     props.project.tasks.push(newTask);
 }
 
@@ -211,8 +225,10 @@ function clickOutModal(event)
         emits('updateModalTask', null);
 }
 
-onMounted( () => {
+onMounted( async () => {
     window.addEventListener('click', clickOutModal);
+    tasks.value = await fetchTasksForCategory(props.srcCategory.id);
+    console.log("##### Tasks are -\n", JSON.stringify(tasks.value),"\n#####");
 })
 onUnmounted( () => {
     window.removeEventListener('click', clickOutModal);

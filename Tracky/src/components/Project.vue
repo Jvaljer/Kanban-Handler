@@ -35,6 +35,7 @@
                     :key="category.name"
                     :srcCategory="category"
                     :project="project"
+                    :states="states"
                     :defaultState="defaultState"
                     :detailsOpened="detailOpened"
                     :openedItem="openedItem"

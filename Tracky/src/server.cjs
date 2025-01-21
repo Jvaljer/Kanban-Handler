@@ -94,6 +94,30 @@ app.get('/states', async (req, res) => {
     res.json({ states: stateList });
 });
 
+app.get('/tasks', async (req, res) => {
+    const id = req.query.category;
+    console.log("DEBUG - searching tasks for category n°",id);
+
+    let taskList = [];
+    const tasks = await new Promise((resolve, reject) => {
+        const sql = `
+            SELECT *
+            FROM tasks
+            WHERE tasks.category_id = ${id};
+        `;
+        db.all(sql, (err, rows) => {
+            if (err) reject(err); // rejecting promise on error
+            else resolve(rows);
+        });
+    });
+    console.log("DEBUG - found tasks: ",tasks.map(t => t.name));
+    // adding fetched categories
+    taskList.push(...tasks);
+
+    console.log("SQL - Server returns: (category: ",id,") (tasks)", taskList.map(t => t.name));
+    res.json({ tasks: taskList });
+});
+
 process.on('SIGINT', () => {
     db.close((err) => {
         if (err) console.error('Error closing DB: ', err.message);

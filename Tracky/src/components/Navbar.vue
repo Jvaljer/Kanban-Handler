@@ -105,9 +105,8 @@ function backHome()
     border-radius: 50%;
     background-color: transparent;
     color: var(--main-beige);
-    font-size: 24px;
     letter-spacing: -4px;
-    left: 304px;
+    left: 208px;
     transition: left 0.25s ease-in;
 }
 .resize-navbar-button:hover, .resize-icon-collapse {
@@ -117,13 +116,13 @@ function backHome()
     rotate: 180deg;
     padding-top: 4px;
     padding-bottom: 0px;
-    left: 152px;
+    left: 104px;
 }
 .resize-navbar-button:hover {
     color: var(--main-dark-brown-64);
 }
 .navbar-container {
-    width: 304px;
+    width: 208px;
     background: url('@/assets/background-images/navbar-bg.png');
     border-right: solid 2px var(--main-beige);
     display: flex;
@@ -132,7 +131,7 @@ function backHome()
     transition: width 0.25s ease-in;
 }
 .navbar-collapsed {
-    width: 152px;
+    width: 104px;
 }
 
 /* HEADER STYLES */
@@ -151,7 +150,7 @@ function backHome()
     border-bottom: solid 1px var(--main-beige);
 }
 .navbar-header-user-icon {
-    width: 64px;
+    width: 56px;
 }
 .navbar-header-user-icon:hover {
     cursor: pointer;
@@ -175,12 +174,15 @@ function backHome()
 .navbar-project-item {
     background: none;
     width: 100%;
-    padding: 16px;
-    font-size: 20px;
+    padding: 8px;
+    font-size: 18px;
     color: var(--main-dark-brown-64);
     border: solid 2px var(--main-dark-brown-64);
     border-radius: 8px;
     text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     transition: border-radius 0.25s ease, padding 0.25s ease, font-size 0.25s ease;
 }
@@ -188,20 +190,19 @@ function backHome()
     background-color: var(--main-dark-brown-16);
     border-radius: 12px;
 }
-.item-collapsed {
-    font-size: 20px;
-    padding: 16px 12px;
-}
 
 .navbar-create-item-button {
     width: 100%;
-    padding: 16px;
-    font-size: 20px;
+    padding: 8px;
+    font-size: 18px;
     text-align: left;
     background-color: transparent;
     color: var(--main-dark-brown-32);
     border: solid 2px var(--main-dark-brown-32);
     border-radius: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     transition: border-radius 0.25s ease, padding 0.25s ease, font-size 0.25s ease;
 }
