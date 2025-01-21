@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div id="scrollable-body" class="project-body" ref="scrollableBody">
-                <Category v-for="category in project.categories"
+                <Category v-for="category in categories"
                     :key="category.name"
                     :srcCategory="category"
                     :project="project"
@@ -95,6 +95,14 @@ const scrollableBody = ref(null);
 const props = defineProps({
     project: {
         type: Object,
+        required: true
+    },
+    categories: {
+        type: Array,
+        required: true
+    },
+    states: {
+        type: Array,
         required: true
     },
     defaultState: {

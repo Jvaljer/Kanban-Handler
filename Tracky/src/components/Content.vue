@@ -16,6 +16,8 @@
         />
         <Project v-if="projectOpened"
             :project="openedProject"
+            :categories="projectCategories"
+            :states="projectStates"
             :defaultState="defaultState"
             :category="openedCategory"
             :openedWithCategory="categoryOpened"
@@ -45,6 +47,12 @@ const props = defineProps({
     },
     openedProject: {
         type: Object
+    },
+    projectCategories: {
+        type: Array
+    },
+    projectStates: {
+        type: Array
     },
     openedCategory: {
         type: Object

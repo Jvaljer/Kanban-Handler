@@ -3,12 +3,6 @@
         <div class="dashboard">
             <div class="dashboard-left">
                 <div class="dashboard-upcoming-deadlines">
-                    <!-- Replace with projects in the latest opened order -->
-                    <!-- <DeadlineProject v-for="projectName of deadlineProjects.keys()"
-                        :project="deadlineProjects.get(projectName)[0]"
-                        :deadlineCount="deadlineProjects.get(projectName)[1]"
-                        @openProjectCategory="openProjectCategory"
-                    /> -->
                     <ProjectSummary v-for="project of sortedProjects"
                         :project="project"
                         :categories="categories"

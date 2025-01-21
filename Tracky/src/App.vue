@@ -15,6 +15,8 @@
       :projectOpened="projectIsOpened"
       :categoryOpened="categoryIsOpened"
       :openedProject="openedProject"
+      :projectCategories="openedProjectCategories"
+      :projectStates="openedProjectStates"
       :openedCategory="openedCategory"
       :defaultState="defaultState"
       :allProjects="projects"
@@ -36,7 +38,7 @@ import Navbar from './components/Navbar.vue';
 import Content from './components/Content.vue';
 import { ref } from 'vue';
 
-import projectsData from '@/assets/database-json/projects.json';
+// import projectsData from '@/assets/database-json/projects.json';
 
 // const projects = ref(projectsData.projects);
 const projects = ref(null);
@@ -53,6 +55,8 @@ const categoryIsOpened = ref(false);
 const openedProject = ref();
 const openedCategory = ref();
 const defaultState = ref('');
+const openedProjectCategories = ref([]);
+const openedProjectStates = ref([]);
 
 // Function triggered when userConnect event is emitted
 async function onUserConnect(userObject) {
@@ -69,25 +73,6 @@ async function onUserConnect(userObject) {
   console.log(`states fetched: ${JSON.stringify(states.value)}`);
 
   isConnected.value = true;
-  // !!! HERE !!!
-  /*
-    Yet projects.value simply looks like:
-    [{
-      id, name, description, kanbanView, creationDate, deadline, creator, lastOpen
-    }
-    ...
-    ]
-
-    And now I need to get the states & categories for each project ...
-
-    2 options:
-    * (RECOMMENDED) fetch the related states & categories and store them as projectStates & projectCategories
-      - this means having to pass all 3 each time
-      - more straightforward, less data mixing
-    * (X) fetch all project related informations and then create a json object mixing all of them
-      - keeps current architecture
-      - data mixing isn't good ?
-  */
 }
 
 async function fetchProjectsInDatabase(username)
@@ -99,7 +84,6 @@ async function fetchProjectsInDatabase(username)
 
     const data = await response.json();
 
-    // projects.value = data.projects;
     return data.projects;
   } 
   catch (err)
@@ -113,14 +97,13 @@ async function fetchCategoriesForProjects(projectList)
 {
   try
   {
-    // first retrieve all ids
     const idList = projectList.map(p => p.id);
+
     const response = await fetch(`http://localhost:3000/categories?projects=${idList}`);
     if (!response.ok) throw new Error('Failed to fetch categories');
 
     const data = await response.json();
 
-    // categories.value = data.categories;
     return data.categories;
   } 
   catch (err)
@@ -134,14 +117,13 @@ async function fetchStatesForProject(projectList)
 {
   try
   {
-    // first retrieve all ids
     const idList = projectList.map(p => p.id);
+
     const response = await fetch(`http://localhost:3000/states?projects=${idList}`);
     if (!response.ok) throw new Error('Failed to fetch states');
 
     const data = await response.json();
 
-    // categories.value = data.categories;
     return data.states;
   } 
   catch (err)
@@ -149,23 +131,6 @@ async function fetchStatesForProject(projectList)
     console.error(`Error fetching projects: ${err}`);
     return [];
   }
-}
-
-function fetchProjectsInJsonDatabase(username)
-{
-  // If many projects, should be better to retrieve the list of user's project and then grab it from DB
-  var projectList = [];
-  if (projects.value)
-  {
-    for (const project of projects.value)
-    {
-      if (project.participants.includes(username)) // error here ...
-      {
-        projectList.push(project);
-      }
-    }
-  }
-  return projectList;
 }
 
 function searchProjectByName(name)
@@ -183,8 +148,8 @@ function searchProjectByName(name)
 function searchDefaultStateInProject(project)
 {
   if (project == null) return "ERR_NO_PROJECT";
-
-  for (const state of project.states)
+  console.log("states -> ",states.value);
+  for (const state of states.value/*project.states*/) // project and states are now 2 different tables
   {
     if (state.isDefault)
     {
@@ -196,7 +161,7 @@ function searchDefaultStateInProject(project)
 
 function searchCategoryInProject(project, categoryName)
 {
-  for (const category of project.categories)
+  for (const category of categories.value/*project.categories*/) //same as above
   {
     if (category.name === categoryName)
     {
@@ -214,9 +179,36 @@ function resizeContent()
 function openProject(projectName)
 {
   projectIsOpened.value = true;
+  // here more stuff to fetch now that using SQL instead of JSON
   openedProject.value = searchProjectByName(projectName);
+  console.log("##### Opened Project - ",openedProject.value.name," #####");
+  openedProjectCategories.value = getProjectCategories(openedProject.value.id);
+  openedProjectStates.value = getProjectStates(openedProject.value.id);
   defaultState.value = searchDefaultStateInProject(openedProject.value);
 }
+
+function getProjectCategories(id)
+{
+  let list = [];
+  for (const category of categories.value)
+  {
+    if (category.project_id == id) list.push(category);
+  }
+  console.log("##### Categories are - ",list," #####");
+  return list;
+}
+
+function getProjectStates(id)
+{
+  let list = [];
+  for (const state of states.value)
+  {
+    if (state.project_id == id) list.push(state);
+  }
+  console.log("##### States are - ",list," #####");
+  return list;
+}
+
 function openProjectWithCategory(projectName, categoryName)
 {
   projectIsOpened.value = true;
