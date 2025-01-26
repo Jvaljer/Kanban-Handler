@@ -122,9 +122,13 @@ async function fetchTasksForCategory(categoryId)
 function getStateColorFromTask(task) // UNUSED NOW, NEED TO CHECK HOW TO FETCH !!!
 {
     // HERE
+    console.log("task -> ", task);
     const taskState = task.state;
+    console.log("taskState -> ", taskState);
     // return props.project.states.filter(state => state.name === taskState)[0].color;
-    return props.states.filter(s => s.name === taskState)[0].color;
+    let state = props.states.filter(s => s.name === taskState);
+    console.log("state -> ", JSON.stringify(state));
+    return state[0].color;
 }
 
 function getPriorityColorFromTask(priority)

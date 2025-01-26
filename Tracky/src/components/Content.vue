@@ -102,12 +102,12 @@ function openProject(projectName, categoryName)
 <!-- LOCAL STYLES -->
 <style>
 .content-container {
-    width: calc(100vw - 304px);
+    width: calc(100vw - 208px);
     background-color: var(--main-light-beige);
 
     transition: width 0.25s ease;
 }
 .content-container-expanded {
-    width: calc(100vw - 152px);
+    width: calc(100vw - 104px);
 }
 </style>
