@@ -63,6 +63,9 @@
                 <ProjectDetails
                     v-if="detailOpened"
                     :item="openedItem"
+                    :states="states"
+                    :tasks="tasks"
+                    :currentState="openedItemIsTask ? openedTaskState : null"
                     :itemIsTask="openedItemIsTask"
                     @closeItem="closeItem"
                 />
@@ -86,6 +89,7 @@ import ProjectDetails from './ProjectDetails.vue';
 const detailOpened = ref(false);
 const openedItem = ref();
 const openedItemIsTask = ref(false);
+const openedTaskState = ref(null);
 
 const pickedTask = ref(null);
 const holderCategoryName = ref(null);
@@ -103,6 +107,10 @@ const props = defineProps({
         required: true
     },
     states: {
+        type: Array,
+        required: true
+    },
+    tasks: {
         type: Array,
         required: true
     },
@@ -147,6 +155,7 @@ function openCategoryDetails(category)
 }
 function openTaskDetails(task)
 {
+    openedTaskState.value = task.state;
     openItem(task, true);
 }
 
