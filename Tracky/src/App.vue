@@ -220,8 +220,10 @@ function openProjectWithCategory(projectName, categoryName)
 
 function closeProject()
 {
+  console.log("##### closeProject #####");
   projectIsOpened.value = false;
   openedProject.value = null; //is there something better to do that defining null ? maybe an empty project ??
+  categoryIsOpened.value = false;
 }
 </script>
 

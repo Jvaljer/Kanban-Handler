@@ -131,10 +131,11 @@ function showCategory(category)
 {
     if (detailOpened.value)
     {
-        if (openedItem.value.category != undefined) //in this case TASK
-            return (openedItem.value.category === category.name);
-        else //otherwise CATEGORY
-            return (openedItem.value.name === category.name);
+        console.log("##### Show : openedItem - ",openedItem.value);
+        if (openedItem.value.category_id != undefined) //in this case TASK
+            return (openedItem.value.category_id === category.id);
+        else // otherwise CATEGORY
+            return (openedItem.value.id === category.id);
     }
     else
         return true;
@@ -159,7 +160,7 @@ function openItem(item, isTask)
 function closeItem()
 {
     detailOpened.value = false;
-    openedItem = null;
+    openedItem.value = null;
 }
 
 // Horizontal Scrolling Behaviour
@@ -343,7 +344,6 @@ if (props.category && props.openedWithCategory)
 }
 .project-create-category:hover {
     border: solid 2px var(--main-dark-brown-32);
-    box-shadow: 2px 2px 4px var(--main-shadow-color);
 }
 .project-create-category:active {
     border: solid 2px var(--main-dark-brown-64);

@@ -11,6 +11,7 @@
                 </div>
                 <div class="dashboard-graph">
                     <!-- TODO  -->
+                     | TODO | 
                 </div>
             </div>
             <div class="dashboard-right">
@@ -60,7 +61,6 @@ const props = defineProps({
 const emits = defineEmits(['openProjectCategory']);
 
 const sortedProjects = ref(getSortedProjects());
-console.log("sorted projects - ",sortedProjects.value);
 
 function getSortedProjects()
 {
@@ -88,6 +88,7 @@ function getLastOpenedProject()
 
 function openProjectCategory(projectName, categoryName)
 {
+    // console.log("##### openProjectCategory - ",projectName, categoryName," #####");
     emits('openProjectCategory', projectName, categoryName);
 }
 </script>

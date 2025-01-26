@@ -248,16 +248,18 @@ onUnmounted( () => {
     min-width: 232px;
     height: calc(100% - 16px);
     border-radius: 16px;
-    box-shadow: 2px 2px 4px var(--main-shadow-color);
     border: solid 2px transparent;
     padding: 8px 0px;
-
-    transition: box-shadow 0.33s ease, border 0.125s ease, border-radius 0.25s ease;
+    border: solid 2px var(--main-dark-brown-16);
+    transition: all 0.25s ease;
 }
 .project-item:hover {
     box-shadow: none;
-    border: solid 2px var(--main-dark-brown-08);
-    border-radius: 24px;
+    border: solid 2px var(--main-dark-brown-32);
+
+    & .project-item-header {
+        border-bottom: solid 1px var(--main-dark-brown-32);
+    }
 }
 .project-item:active {
     border: solid 2px var(--main-dark-brown-64);
@@ -269,7 +271,8 @@ onUnmounted( () => {
     color: var(--main-dark-brown-64);
     display: flex;
     flex-direction: column;
-    border-bottom: solid 1px var(--main-brown-32);
+    border-bottom: solid 1px var(--main-dark-brown-16);
+    transition: all 0.25s ease;
 }
 .project-header-category-name {
     font-size: 20px;
@@ -334,10 +337,9 @@ onUnmounted( () => {
     background-color: var(--main-light-beige-64);
     font-size: 16px;
     margin-bottom: 8px;
-    border: solid 2px transparent;
+    border: solid 2px var(--main-dark-brown-08);
     border-radius: 8px;
     color: var(--main-dark-brown-80);
-    box-shadow: 2px 2px 4px var(--main-dark-brown-16);
 
     transition: all 0.25s ease;
 }
@@ -346,8 +348,7 @@ onUnmounted( () => {
 }
 .project-task:hover {
     box-shadow: none;
-    border: solid 2px var(--main-dark-brown-16);
-    border-radius: 16px;
+    border-color: var(--main-dark-brown-32);
 }
 .project-task:active {
     transform: scale(1);
