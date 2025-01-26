@@ -114,7 +114,7 @@ async function fetchTasksForCategory(categoryId)
     if (!response.ok) throw new Error('Failed to fetch projects');
 
     const data = await response.json();
-    console.log("fetched tasks -> "+data.tasks);
+    // console.log("fetched tasks -> "+data.tasks);
 
     return data.tasks;
 }
@@ -122,13 +122,13 @@ async function fetchTasksForCategory(categoryId)
 function getStateColorFromTask(task) // UNUSED NOW, NEED TO CHECK HOW TO FETCH !!!
 {
     // HERE
-    console.log("task -> ", task);
     const taskState = task.state;
-    console.log("taskState -> ", taskState);
     // return props.project.states.filter(state => state.name === taskState)[0].color;
     let state = props.states.filter(s => s.name === taskState);
-    console.log("state -> ", JSON.stringify(state));
-    return state[0].color;
+    if (state.length > 0)
+        return state[0].color;
+    else
+        return "";
 }
 
 function getPriorityColorFromTask(priority)
@@ -232,7 +232,7 @@ function clickOutModal(event)
 onMounted( async () => {
     window.addEventListener('click', clickOutModal);
     tasks.value = await fetchTasksForCategory(props.srcCategory.id);
-    console.log("##### Tasks are -\n", JSON.stringify(tasks.value),"\n#####");
+    // console.log("##### Tasks are -\n", JSON.stringify(tasks.value),"\n#####");
 })
 onUnmounted( () => {
     window.removeEventListener('click', clickOutModal);

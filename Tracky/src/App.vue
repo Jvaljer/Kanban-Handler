@@ -64,13 +64,13 @@ async function onUserConnect(userObject) {
   username.value = userObject.name;
 
   projects.value = await fetchProjectsInDatabase(userObject.username);
-  console.log(`projects fetched: ${JSON.stringify(projects.value)}`);
+  // console.log(`projects fetched: ${JSON.stringify(projects.value)}`);
 
   categories.value = await fetchCategoriesForProjects(projects.value);
-  console.log(`categories fetched: ${JSON.stringify(categories.value)}`);
+  // console.log(`categories fetched: ${JSON.stringify(categories.value)}`);
 
   states.value = await fetchStatesForProject(projects.value);
-  console.log(`states fetched: ${JSON.stringify(states.value)}`);
+  // console.log(`states fetched: ${JSON.stringify(states.value)}`);
 
   isConnected.value = true;
 }
@@ -148,7 +148,7 @@ function searchProjectByName(name)
 function searchDefaultStateInProject(project)
 {
   if (project == null) return "ERR_NO_PROJECT";
-  console.log("states -> ",states.value);
+  // console.log("states -> ",states.value);
   for (const state of states.value/*project.states*/) // project and states are now 2 different tables
   {
     if (state.isDefault)
@@ -181,7 +181,7 @@ function openProject(projectName)
   projectIsOpened.value = true;
   // here more stuff to fetch now that using SQL instead of JSON
   openedProject.value = searchProjectByName(projectName);
-  console.log("##### Opened Project - ",openedProject.value.name," #####");
+  // console.log("##### Opened Project - ",openedProject.value.name," #####");
   openedProjectCategories.value = getProjectCategories(openedProject.value.id);
   openedProjectStates.value = getProjectStates(openedProject.value.id);
   defaultState.value = searchDefaultStateInProject(openedProject.value);
@@ -194,7 +194,7 @@ function getProjectCategories(id)
   {
     if (category.project_id == id) list.push(category);
   }
-  console.log("##### Categories are - ",list," #####");
+  // console.log("##### Categories are - ",list," #####");
   return list;
 }
 
@@ -205,7 +205,7 @@ function getProjectStates(id)
   {
     if (state.project_id == id) list.push(state);
   }
-  console.log("##### States are - ",list," #####");
+  // console.log("##### States are - ",list," #####");
   return list;
 }
 

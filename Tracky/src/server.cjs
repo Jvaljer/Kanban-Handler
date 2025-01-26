@@ -14,14 +14,6 @@ const db = new sqlite3.Database('./kanban.db', (err) => {
     else
     {
         console.log('Connected to SQLite DB !');
-
-        // const sql = "SELECT * FROM sqlite_master WHERE type='table';";
-        // db.all(sql, (err, rows) => {
-        //     if (err) console.error("!!! ", err.message);
-        //     else {
-        //         console.log("tables > \n", rows);
-        //     }
-        // });
     }
 });
 
@@ -35,7 +27,7 @@ app.get('/projects', (req, res) => {
     `; // bold but still works tho
 
     db.all(sql, (err, rows) => {
-        if (err) console.error("!!! ", err.message);
+        if (err) console.error("ERROR - ", err.message);
         else {
             console.log("SQL - Server returns: (projects)", rows.map(r => r.name));
             res.json({ projects: rows }); // 'projects' because fetching as 'data.projects'.
@@ -96,7 +88,6 @@ app.get('/states', async (req, res) => {
 
 app.get('/tasks', async (req, res) => {
     const id = req.query.category;
-    console.log("DEBUG - searching tasks for category n°",id);
 
     let taskList = [];
     const tasks = await new Promise((resolve, reject) => {
@@ -110,7 +101,6 @@ app.get('/tasks', async (req, res) => {
             else resolve(rows);
         });
     });
-    console.log("DEBUG - found tasks: ",tasks.map(t => t.name));
     // adding fetched categories
     taskList.push(...tasks);
 
